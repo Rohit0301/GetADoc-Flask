@@ -7,6 +7,14 @@
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+     {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
     <h1>Hello!! Welcome to GetADoc!!!</h1>
 </body>
 </html>
