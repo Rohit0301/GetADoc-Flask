@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
+    <title>GetADoc - Book a Doctor</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+   {% endif %}
+   {% endwith %}
+    <h1>hello Doctor!!</h1>
+    <h1>No apponintment yet</h1>
+        <li><a href="/logout">Logout <span class="sr-only"></span></a></li>
+
+</body>
+</html>

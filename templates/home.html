@@ -7,6 +7,9 @@
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
+    {% if current_user.is_authenticated %}
+    <h3>{{ current_user.username}}</h3>
+    {% endif %}
     {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
@@ -16,5 +19,8 @@
 {% endwith %}
 
     <h1>Hello!! Welcome to GetADoc!!!</h1>
+    
+      <li><a href="/login">Login <span class="sr-only"></span></a></li>
+      <li><a href="/choice">Sign up <span class="sr-only"></span></a></li>
 </body>
 </html>

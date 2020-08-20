@@ -1,7 +1,7 @@
-from flask import Flask, render_template, url_for,request,flash,redirect
+from flask import Flask, render_template, url_for,request,flash,redirect,session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash    #this class is used for generate and check the hashcode
-from forms import RegistrationForm,LoginForm
+from forms import RegistrationForm,LoginForm,DoctorForm
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
 
@@ -19,8 +19,7 @@ login_manager=LoginManager()
 
 login_manager.init_app(app)
 
-login_manager.login_view = 'users.login'
-
+login_manager.login_view = 'login'
 
 
 
@@ -31,6 +30,23 @@ class Register(UserMixin,db.Model):
     password = db.Column(db.String(500),nullable=False)
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+class DoctorDetails(UserMixin,db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fullname = db.Column(db.String(80),nullable=False)
+    email = db.Column(db.String(80),nullable=False)
+    password = db.Column(db.String(500),nullable=False)
+    city = db.Column(db.String(80),nullable=False)
+    qualifications = db.Column(db.String(100),nullable=False)
+    contact = db.Column(db.String(80),nullable=False)
+    doctortype = db.Column(db.String(80),nullable=False)
+    address = db.Column(db.String(200),nullable=False)
+    clinic_charge = db.Column(db.Integer,nullable=False)
+    home_visit_available = db.Column(db.Integer,nullable=False,default=0)
+    home_charge = db.Column(db.String(80),nullable=False)
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
     
 
 @login_manager.user_loader        #Flask-Login retrieves the ID of the user from the session, and then loads that user into memory. 
@@ -60,23 +76,31 @@ def register():
             register = Register(username=form.username.data, email=form.email.data,password=password)
             db.session.add(register)
             db.session.commit()
+            register = Register.query.filter_by(email=form.email.data).first()
             flash('Congratulations, you are registered successfully!')
-            return redirect(url_for('home'))
+            return redirect(url_for('patientform'))
+            
+
     return render_template('register.html',form=form)
 
 
 @app.route('/login',methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = Register.query.filter_by(email=form.email.data).first()
+        type=form.choice.data
+        if type=="Doctor":
+            user = DoctorDetails.query.filter_by(email=form.email.data).first()
+        else:
+            user = Register.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('home'))
+        if type=="Patient":
+            return redirect(url_for('patientform'))
+        else:
+            return redirect(url_for('doctorpage'))
 
     
     return render_template('login.html',form=form)
@@ -85,7 +109,42 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
+
+@app.route('/doctorpage')
+def doctorpage():
+    return render_template('doctorpage.html')
+
+@app.route('/choice')
+def choice():
+    return render_template('choice.html')
+
+
+@app.route('/patientform')
+def patientform():
+    return render_template('patientform.html')
+
+
+
+
+@app.route('/doctorform',methods=['GET','POST'])
+def doctorform():
+    form=DoctorForm()
+    if form.validate_on_submit():
+        home_visit_available=0
+        if form.home_visit.data:
+            home_visit_available=1
+        reg = Register.query.filter_by(email=form.email.data).first()          
+        if reg is not None:                             #this if checks that the user is already registered or not
+            flash('user already registered!')
+        else:                                           
+            password=generate_password_hash(form.password.data)   
+            doctor=DoctorDetails(fullname=form.fullname.data,email=form.email.data,password=password,city=form.city.data,qualifications=form.qualifications.data,contact=form.contact.data,doctortype=form.doctortype.data,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
+            db.session.add(doctor)
+            db.session.commit()
+        flash('Congratulations, your data submitted successfully!')
+        return redirect(url_for('doctorpage'))
+    return render_template('doctor.html',form=form)
 
 
 if __name__ == '__main__':
