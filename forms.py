@@ -39,3 +39,16 @@ class DoctorForm(FlaskForm):
 class SearchForm(FlaskForm):
 	city=StringField('City',[validators.DataRequired()])
 	search=SubmitField('Search Doctor')
+
+
+class PatientForm(FlaskForm):
+    fullname=StringField("Patient's FullName",[validators.DataRequired()])
+    email=StringField("Patient's Email",[validators.DataRequired(),validators.Email()])
+    contact=StringField("Patient's Contact",[validators.DataRequired()])
+    address = StringField("Patient's Address",[validators.Length(min=4)],widget=TextArea())
+    age=IntegerField("Patients's Age",[validators.DataRequired()])
+    myChoices=[('Year','Year'),('Month','Month')]
+    type= SelectField(u'Type', choices = myChoices,default=1)
+    choice=RadioField('Choose preference',choices=[('Home Visit','Home Visit'),('Clinic','Clinic')])
+    submit=SubmitField('Submit Details')
+

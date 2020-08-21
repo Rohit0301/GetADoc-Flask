@@ -1,9 +1,11 @@
 from flask import Flask, render_template, url_for,request,flash,redirect,session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash    #this class is used for generate and check the hashcode
-from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm
+from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
+from datetime import datetime
+import smtplib
 
 
 
@@ -20,6 +22,8 @@ login_manager=LoginManager()
 login_manager.init_app(app)
 
 login_manager.login_view = 'login'
+s = smtplib.SMTP('smtp.gmail.com', 587) 
+s.starttls() 
 
 
 
@@ -46,6 +50,27 @@ class DoctorDetails(UserMixin,db.Model):
     home_charge = db.Column(db.String(80),nullable=False)
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+
+class PatientDetails(UserMixin,db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fullname = db.Column(db.String(80),nullable=False)
+    email = db.Column(db.String(80),nullable=False)
+    contact = db.Column(db.String(80),nullable=False)
+    address = db.Column(db.String(200),nullable=False)
+    age=db.Column(db.Integer,nullable=False)
+    type= db.Column(db.String(80),nullable=False)
+    choice= db.Column(db.String(80),nullable=False)
+    formfillingdate=db.Column(db.String(80),nullable=False)
+    appointmentdate=db.Column(db.String(80),nullable=True)
+    appointmenttime=db.Column(db.String(80),nullable=True)
+    docid=db.Column(db.Integer,nullable=False)
+
+
+
+
+
+
 
     
 
@@ -151,9 +176,29 @@ def doctorform():
 
 
 
-@app.route('/patientform')
-def patientform():
-    return render_template('patientform.html')
+@app.route('/patientform/<int:id>/<int:visit>',methods=['GET','POST'])
+def patientform(id,visit):
+    form=PatientForm()
+    if form.validate_on_submit():
+        home=form.choice.data
+        if visit==0 and homev=="Home Visit":
+            flash('Sorry !! Doctor is not available for home visit please choose clinic option')
+        patient=PatientDetails(fullname=form.fullname.data,email=form.email.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=None,appointmenttime=None,docid=id)
+        db.session.add(patient)
+        db.session.commit()
+        s.login("arichayjian@gmail.com", "aj03012002aj") 
+  
+# message to be sent 
+        message = "hello there hi i am arichay jain"
+  
+# sending the mail 
+        s.sendmail("arichayjian@gmail.com", "rj03012002@gmail.com", message) 
+  
+# terminating the session 
+        s.quit() 
+
+
+    return render_template('patientform.html',form=form,visit=visit)
 
 
 if __name__ == '__main__':

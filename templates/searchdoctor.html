@@ -37,12 +37,11 @@
         <div class="card header">
         <h1>Details</h1>
          </div>
-         <div class="card_body">
+        
            <h2>FullName={{d.fullname}}</h2>
            <h4>Qualifications={{d.qualifications}}</h4>
            <h4>DocterType={{d.doctortype}}</h4>
            <h4>City={{d.city}}</h4>
-        </div>
     </div>
         <div class="col-md-3">
         <h1>Contact Details</h1>
@@ -62,7 +61,7 @@
 
          </div>
          <div class="col-mid-2">
-       <a href="{{ url_for('patientform') }}"> <button type="submit" class="btn btn-primary">Book appointment</button></a>
+       <a href="{{url_for('patientform',id=d.id,visit=d.home_visit_available)}}"> <button type="submit" class="btn btn-primary">Book appointment</button></a>
        </div>
    </div>
    <br>
