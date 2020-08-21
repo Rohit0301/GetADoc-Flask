@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">-->
+{% extends "layout.html" %}
+{% block body %}
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
@@ -19,8 +15,10 @@
 {% endwith %}
 
     <h1>Hello!! Welcome to GetADoc!!!</h1>
+{% endblock %}
     
-      <li><a href="/login">Login <span class="sr-only"></span></a></li>
-      <li><a href="/choice">Sign up <span class="sr-only"></span></a></li>
 </body>
 </html>
+
+
+

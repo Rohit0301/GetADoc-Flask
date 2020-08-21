@@ -4,11 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
-    <h1>Choose the type</h1>
-      <li><a href="/doctorform">Doctor <span class="sr-only"></span></a></li>
-       <li><a href="/register">Patient <span class="sr-only"></span></a></li>
+    <center>
+    <h1>Choose the any one option</h1>
+    <br>
+    <br>
+      
+<div class="row">
+    <div class="col-md-7">
+<div class="card" style="width:400px">
+  <img class="card-img-top" src="{{url_for('static',filename='img/Patient2.png')}}" alt="Card image">
+  <div class="card-body">
+    <h4 class="card-title">Patient</h4>
+    <p class="card-text"></p>
+   <a href="/register" > <button class="btn btn-primary"> Patient SignUp</button></a>
+  </div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="card" style="width:400px">
+  <img class="card-img-top" src="{{url_for('static',filename='img/doctor1.jpeg')}}" alt="Card image">
+  <div class="card-body">
+    <h4 class="card-title">Doctor</h4>
+    <p class="card-text"></p>
+   <a href="/doctorform" > <button class="btn btn-success">Doctor SignUp</button></a>
+  </div>
+</div>
+</div>
+</div>
+</center>
 </body>
 </html>

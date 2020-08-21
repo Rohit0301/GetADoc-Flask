@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for,request,flash,redirect,session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash    #this class is used for generate and check the hashcode
-from forms import RegistrationForm,LoginForm,DoctorForm
+from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
 
@@ -98,7 +98,7 @@ def login():
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         if type=="Patient":
-            return redirect(url_for('patientform'))
+            return redirect(url_for('searchdoctor'))
         else:
             return redirect(url_for('doctorpage'))
 
@@ -120,11 +120,13 @@ def choice():
     return render_template('choice.html')
 
 
-@app.route('/patientform')
-def patientform():
-    return render_template('patientform.html')
-
-
+@app.route('/searchdoctor',methods=['GET','POST'])
+def searchdoctor():
+    form=SearchForm()
+    doctor = DoctorDetails.query.filter_by(city=form.city.data).all()
+    if doctor is None:
+        flash('No doctor present in this city')
+    return render_template('searchdoctor.html',doctor=doctor,form=form)
 
 
 @app.route('/doctorform',methods=['GET','POST'])
@@ -145,6 +147,13 @@ def doctorform():
         flash('Congratulations, your data submitted successfully!')
         return redirect(url_for('doctorpage'))
     return render_template('doctor.html',form=form)
+
+
+
+
+@app.route('/patientform')
+def patientform():
+    return render_template('patientform.html')
 
 
 if __name__ == '__main__':

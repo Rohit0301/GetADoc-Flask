@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>GetADoc - Book a Doctor</title>
+</head>
+<body>
+    <h1>search the doctor</h1>
+     
+        <li><a href="/logout">Logout <span class="sr-only"></span></a></li>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+   {% endif %}
+   {% endwith %}
+
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.city.label }}
+            {{ form.city(size=32) }}
+            {% for error in form.city.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.search() }}</p>
+   </form>
+
+   {% for d in doctor%}
+   <div class="container-fluid row ">
+       <div class="col-md-3 card">
+        <div class="card header">
+        <h1>Details</h1>
+         </div>
+         <div class="card_body">
+           <h2>FullName={{d.fullname}}</h2>
+           <h4>Qualifications={{d.qualifications}}</h4>
+           <h4>DocterType={{d.doctortype}}</h4>
+           <h4>City={{d.city}}</h4>
+        </div>
+    </div>
+        <div class="col-md-3">
+        <h1>Contact Details</h1>
+        <h4>Phone={{d.contact}}</h4>
+        <h4>Email={{d.email}}</h4>
+        <h4>Address={{d.address}}</h4>
+        </div>
+        <div class="col-md-3">
+        <h1>Charges</h1>
+        <h4>Clinic Charges={{d.clinic_charge}}</h4>
+        {% if d.home_visit_available==1 %}
+        <span>Home visit available</span>
+        <h4>Home visit Charges={{d.home_charge}}</h4>
+        {% else %}
+        <span>Home visit not available</span>
+        {% endif %}
+
+         </div>
+         <div class="col-mid-2">
+       <a href="{{ url_for('patientform') }}"> <button type="submit" class="btn btn-primary">Book appointment</button></a>
+       </div>
+   </div>
+   <br>
+   {% endfor %}
+
+</body>
+</html>

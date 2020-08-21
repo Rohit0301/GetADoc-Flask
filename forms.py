@@ -35,3 +35,7 @@ class DoctorForm(FlaskForm):
     home_charges=IntegerField('Home charges',render_kw={"placeholder": 0})
     clinic_charges=IntegerField('Clinic charges',render_kw={"placeholder": 0})
     submit=SubmitField('Submit Details')
+
+class SearchForm(FlaskForm):
+	city=StringField('City',[validators.DataRequired()])
+	search=SubmitField('Search Doctor')
