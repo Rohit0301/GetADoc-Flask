@@ -1,11 +1,14 @@
 from flask import Flask, render_template, url_for,request,flash,redirect,session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash    #this class is used for generate and check the hashcode
-from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm
+from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm,Appointments
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
 from datetime import datetime
 import smtplib
+
+import socket
+socket.getaddrinfo('localhost', 80)
 
 
 
@@ -55,16 +58,17 @@ class DoctorDetails(UserMixin,db.Model):
 class PatientDetails(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fullname = db.Column(db.String(80),nullable=False)
-    email = db.Column(db.String(80),nullable=False)
     contact = db.Column(db.String(80),nullable=False)
     address = db.Column(db.String(200),nullable=False)
     age=db.Column(db.Integer,nullable=False)
     type= db.Column(db.String(80),nullable=False)
     choice= db.Column(db.String(80),nullable=False)
-    formfillingdate=db.Column(db.String(80),nullable=False)
-    appointmentdate=db.Column(db.String(80),nullable=True)
-    appointmenttime=db.Column(db.String(80),nullable=True)
+    formfillingdate=db.Column(db.DateTime, nullable=False)
+    appointmentdate=db.Column(db.Date)
+    appointmenttime=db.Column(db.Time,nullable=True)
     docid=db.Column(db.Integer,nullable=False)
+    pid=db.Column(db.Integer,nullable=False)
+    status=db.Column(db.String(20),nullable=False)
 
 
 
@@ -101,9 +105,9 @@ def register():
             register = Register(username=form.username.data, email=form.email.data,password=password)
             db.session.add(register)
             db.session.commit()
-            register = Register.query.filter_by(email=form.email.data).first()
+            reg = Register.query.filter_by(email=form.email.data).first()
             flash('Congratulations, you are registered successfully!')
-            return redirect(url_for('patientform'))
+            return redirect(url_for('searchdoctor',pid=reg.id))
             
 
     return render_template('register.html',form=form)
@@ -123,9 +127,9 @@ def login():
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         if type=="Patient":
-            return redirect(url_for('searchdoctor'))
+            return redirect(url_for('searchdoctor',pid= user.id))
         else:
-            return redirect(url_for('doctorpage'))
+            return redirect(url_for('doctorpage',id=user.id))
 
     
     return render_template('login.html',form=form)
@@ -136,22 +140,50 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/doctorpage')
-def doctorpage():
-    return render_template('doctorpage.html')
+@app.route('/doctorpage/<int:id>')
+def doctorpage(id):
+    form=Appointments()
+    appoints=PatientDetails.query.filter_by(docid=id,status="pending").all()
+    if appoints is None:
+        flash("No pending appointments are there")
+        return redirect('doctorpage',id=id)
+    return render_template('doctorpage.html',appoints=appoints,form=form)
+
+
+
+
+##########################################################################################################################
+@app.route('/confirmappointment/<int:id>/<int:pid>',methods=['GET','POST'])
+def confirmappointment(id,pid):
+    form=Appointments()
+    appoints=PatientDetails.query.filter_by(docid=id,status="pending",pid=pid).first()
+    date="hello"
+    time="hi"
+    if form.validate_on_submit:
+            date=form.date.data
+       # date = datetime.strptime(form.date.data, '%d, %m, %Y')
+            flash(date)
+            return redirect(url_for('home'))
+        #return redirect(url_for('doctorpage',id=id))
+
+        #patient=PatientDetails.query.filter_by(docid=id,status="pending",pid=pid).update({status:"appointed"})
+       # return redirect(url_for('home'))
+    return render_template('confirmappointment.html',appoints=appoints,form=form,date=date)
+####################################################################################################################
+
 
 @app.route('/choice')
 def choice():
     return render_template('choice.html')
 
 
-@app.route('/searchdoctor',methods=['GET','POST'])
-def searchdoctor():
+@app.route('/searchdoctor/<int:pid>',methods=['GET','POST'])
+def searchdoctor(pid):
     form=SearchForm()
     doctor = DoctorDetails.query.filter_by(city=form.city.data).all()
     if doctor is None:
         flash('No doctor present in this city')
-    return render_template('searchdoctor.html',doctor=doctor,form=form)
+    return render_template('searchdoctor.html',doctor=doctor,form=form,pid=pid)
 
 
 @app.route('/doctorform',methods=['GET','POST'])
@@ -170,32 +202,42 @@ def doctorform():
             db.session.add(doctor)
             db.session.commit()
         flash('Congratulations, your data submitted successfully!')
-        return redirect(url_for('doctorpage'))
+        return redirect(url_for('doctorpage',id=reg.id))
     return render_template('doctor.html',form=form)
 
 
 
 
-@app.route('/patientform/<int:id>/<int:visit>',methods=['GET','POST'])
-def patientform(id,visit):
+@app.route('/patientform/<int:id>/<int:visit>/<int:pid>',methods=['GET','POST'])
+def patientform(id,visit,pid):
     form=PatientForm()
     if form.validate_on_submit():
         home=form.choice.data
-        if visit==0 and homev=="Home Visit":
+        if visit==0 and home=="Home Visit":
             flash('Sorry !! Doctor is not available for home visit please choose clinic option')
-        patient=PatientDetails(fullname=form.fullname.data,email=form.email.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=None,appointmenttime=None,docid=id)
+            return redirect(url_for('patientform',id=id,visit=visit,pid=pid))
+
+        appoint = PatientDetails.query.filter_by(docid=id).all()
+        for a in appoint:
+            if a.pid==pid and a.status=="pending":
+                 flash('you have already book an appointment with this doctor')     
+                 return redirect(url_for('searchdoctor',pid=pid))      
+        
+
+        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending")
         db.session.add(patient)
         db.session.commit()
-        s.login("arichayjian@gmail.com", "aj03012002aj") 
+        return redirect(url_for('home'))# add check histroy form for a patients
+        #s.login("arichayjian@gmail.com", "aj03012002aj") 
   
 # message to be sent 
-        message = "hello there hi i am arichay jain"
+       # message = "hello there hi i am arichay jain"
   
 # sending the mail 
-        s.sendmail("arichayjian@gmail.com", "rj03012002@gmail.com", message) 
+       # s.sendmail("arichayjian@gmail.com", "rj03012002@gmail.com", message) 
   
 # terminating the session 
-        s.quit() 
+       # s.quit() 
 
 
     return render_template('patientform.html',form=form,visit=visit)

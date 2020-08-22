@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,27 +17,32 @@
    {% endif %}
    {% endwith %}
     <h1>hello Doctor!!</h1>
-        <li><a href="/logout">Logout <span class="sr-only"></span></a></li>
+  <form action="",method="post">
+        {{date}}
 
 
-        {% for a in appoints %}
-   <div class="container-fluid row ">
+ <div class="container-fluid row ">
        <div class="col-md-3">
         
-           <h4>FullName: {{a.fullname}}</h4>
-           <h4>Age: {{a.age}}</h4>
-            <h4>Choice: {{a.choice}}</h4>
-        <h4>Phone: {{a.contact}}</h4>
-        <h4>Address: {{a.address}}</h4>
+           <h4>FullName: {{appoints.fullname}}</h4>
+           <h4>Age: {{appoints.age}}</h4>
+            <h4>Choice: {{appoints.choice}}</h4>
+        <h4>Phone: {{appoints.contact}}</h4>
+        <h4>Address: {{appoints.address}}</h4>
+
         </div>
-    
-         <div class=" container-fluid col-mid-2">
-       <a href="{{url_for('confirmappointment',id=a.docid,pid=a.pid)}}"> <button type="submit" class="btn btn-success">Give appointment</button></a><br><br>
-       <a href="{{url_for('home')}}"> <button type="submit" class="btn btn-danger">Cancel appointment</button></a>
-       </div>
-   </div>
-   <br>
-   {% endfor %}
+        <p>
+            {{ form.date.label }}
+            {{ form.date(size=32) }}
+            {% for error in form.date.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p><br>
+        <p>{{form.submit()}}</p>
+        <a href="{{url_for('doctorpage',id=appoints.docid)}}"> <button type="submit" class="btn btn-success">Confirm appointment</button></a>
+
+    </div>
+</form>
 
 </body>
 </html>

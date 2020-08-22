@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import Form,validators,StringField,PasswordField,BooleanField,SubmitField,SelectField,IntegerField,TextAreaField,RadioField
 from wtforms.widgets import TextArea
+from wtforms.fields.html5 import DateField,TimeField,DateTimeLocalField
 
 class RegistrationForm(FlaskForm):
 	username=StringField('Username',[validators.DataRequired(),validators.Length(min=3,max=50)])
@@ -43,7 +44,6 @@ class SearchForm(FlaskForm):
 
 class PatientForm(FlaskForm):
     fullname=StringField("Patient's FullName",[validators.DataRequired()])
-    email=StringField("Patient's Email",[validators.DataRequired(),validators.Email()])
     contact=StringField("Patient's Contact",[validators.DataRequired()])
     address = StringField("Patient's Address",[validators.Length(min=4)],widget=TextArea())
     age=IntegerField("Patients's Age",[validators.DataRequired()])
@@ -52,3 +52,8 @@ class PatientForm(FlaskForm):
     choice=RadioField('Choose preference',choices=[('Home Visit','Home Visit'),('Clinic','Clinic')])
     submit=SubmitField('Submit Details')
 
+
+class Appointments(FlaskForm):
+    date=DateTimeLocalField('Allot Date', format='%d/%m/%y')
+    #time = TimeField('Allot Time',format='%H:%M:%S')
+    submit=SubmitField('Confirm')
