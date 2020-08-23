@@ -54,6 +54,7 @@ class PatientForm(FlaskForm):
 
 
 class Appointments(FlaskForm):
-    date=DateTimeLocalField('Allot Date', format='%d/%m/%y')
-    #time = TimeField('Allot Time',format='%H:%M:%S')
+    date=DateField('Allot Date',[validators.DataRequired()], format='%d-%m-%Y')
+    #fullname=StringField('FullName',[validators.DataRequired()])
+    time = TimeField('Allot Time',[validators.DataRequired()],format='%H:%M:%S')
     submit=SubmitField('Confirm')

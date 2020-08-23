@@ -8,7 +8,7 @@ from datetime import datetime
 import smtplib
 
 import socket
-socket.getaddrinfo('localhost', 80)
+socket.getaddrinfo('localhost', 8080)
 
 
 
@@ -129,7 +129,15 @@ def login():
         if type=="Patient":
             return redirect(url_for('searchdoctor',pid= user.id))
         else:
-            return redirect(url_for('doctorpage',id=user.id))
+            appoints=PatientDetails.query.filter_by(docid=user.id,status="pending").all()
+            if len(appoints)==0:
+                flash('no pending appointments yet')
+                return redirect(url_for('doctorpage',id=user.id))
+
+            else:
+                no=len(appoints)
+                flash('{} appointments are pending'.format(no))
+                return redirect(url_for('doctorpage',id=user.id))
 
     
     return render_template('login.html',form=form)
@@ -143,11 +151,9 @@ def logout():
 @app.route('/doctorpage/<int:id>')
 def doctorpage(id):
     form=Appointments()
-    appoints=PatientDetails.query.filter_by(docid=id,status="pending").all()
-    if appoints is None:
-        flash("No pending appointments are there")
-        return redirect('doctorpage',id=id)
-    return render_template('doctorpage.html',appoints=appoints,form=form)
+    appoints=PatientDetails.query.filter_by(docid=id).all()
+    s=len(appoints)
+    return render_template('doctorpage.html',appoints=appoints,form=form,s=s)
 
 
 
@@ -157,18 +163,21 @@ def doctorpage(id):
 def confirmappointment(id,pid):
     form=Appointments()
     appoints=PatientDetails.query.filter_by(docid=id,status="pending",pid=pid).first()
-    date="hello"
-    time="hi"
-    if form.validate_on_submit:
-            date=form.date.data
-       # date = datetime.strptime(form.date.data, '%d, %m, %Y')
-            flash(date)
-            return redirect(url_for('home'))
+    if request.method=="POST":
+            date1=request.form.get('date')
+            time=request.form.get('time')
+            patient=PatientDetails.query.filter_by(docid=id,status="pending",pid=pid).first()
+            patient.status="appointed"
+            patient.appointmenttime=time
+            patient.appointmentdate=date1
+            db.session.commit()
+           
+            return redirect(url_for('doctorpage',id=id))
         #return redirect(url_for('doctorpage',id=id))
 
         #patient=PatientDetails.query.filter_by(docid=id,status="pending",pid=pid).update({status:"appointed"})
        # return redirect(url_for('home'))
-    return render_template('confirmappointment.html',appoints=appoints,form=form,date=date)
+    return render_template('confirmappointment.html',appoints=appoints,form=form)
 ####################################################################################################################
 
 
@@ -183,7 +192,8 @@ def searchdoctor(pid):
     doctor = DoctorDetails.query.filter_by(city=form.city.data).all()
     if doctor is None:
         flash('No doctor present in this city')
-    return render_template('searchdoctor.html',doctor=doctor,form=form,pid=pid)
+    else:   
+       return render_template('searchdoctor.html',doctor=doctor,form=form,pid=pid)
 
 
 @app.route('/doctorform',methods=['GET','POST'])
@@ -202,7 +212,7 @@ def doctorform():
             db.session.add(doctor)
             db.session.commit()
         flash('Congratulations, your data submitted successfully!')
-        return redirect(url_for('doctorpage',id=reg.id))
+        return redirect(url_for('doctorpage',id=reg.id,s=0))
     return render_template('doctor.html',form=form)
 
 

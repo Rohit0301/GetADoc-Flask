@@ -17,8 +17,7 @@
    {% endif %}
    {% endwith %}
     <h1>hello Doctor!!</h1>
-  <form action="",method="post">
-        {{date}}
+
 
 
  <div class="container-fluid row ">
@@ -31,6 +30,18 @@
         <h4>Address: {{appoints.address}}</h4>
 
         </div>
+      </div>
+
+<form method="post">
+    {{ form.hidden_tag() }}
+         <p>
+             {{form.time.label}}
+             {{form.time(size=32)}}
+             {% for error in form.time.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+         </p>
+    
         <p>
             {{ form.date.label }}
             {{ form.date(size=32) }}
@@ -39,10 +50,10 @@
             {% endfor %}
         </p><br>
         <p>{{form.submit()}}</p>
-        <a href="{{url_for('doctorpage',id=appoints.docid)}}"> <button type="submit" class="btn btn-success">Confirm appointment</button></a>
-
-    </div>
 </form>
+        <!--<a href="{{url_for('doctorpage',id=appoints.docid)}}"> <button type="submit" class="btn btn-success">Confirm appointment</button></a>-->
+
+
 
 </body>
 </html>

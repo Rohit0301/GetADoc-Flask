@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  
     <title>GetADoc - Book a Doctor</title>
 </head>
@@ -12,7 +13,15 @@
     {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
+     {% if s==0 %}
+     <div class="aler alert-danger">
       {{ message }}
+       </div>
+      {% else %}
+      <div class="alert alert-success">
+      {{message}}
+      </div>
+      {% endif %}
     {% endfor %}
    {% endif %}
    {% endwith %}
@@ -21,8 +30,11 @@
 
 
         {% for a in appoints %}
-   <div class="container-fluid row ">
-       <div class="col-md-3">
+{% if a.status=="pending" %}
+   <div class="container-fluid row aler alert-warning">
+
+       <div class="col-md-3 ">
+        <i class="fa fa-exclamation-triangle " style="font-size:60px;"></i>
         
            <h4>FullName: {{a.fullname}}</h4>
            <h4>Age: {{a.age}}</h4>
@@ -30,14 +42,55 @@
         <h4>Phone: {{a.contact}}</h4>
         <h4>Address: {{a.address}}</h4>
         </div>
-    
-         <div class=" container-fluid col-mid-2">
+        
+         <div class=" container-fluid col-md-3">
+            <br>
+        <br>
+        <br>
        <a href="{{url_for('confirmappointment',id=a.docid,pid=a.pid)}}"> <button type="submit" class="btn btn-success">Give appointment</button></a><br><br>
        <a href="{{url_for('home')}}"> <button type="submit" class="btn btn-danger">Cancel appointment</button></a>
        </div>
    </div>
+
    <br>
+   {% endif %}
    {% endfor %}
 
+     {% for a in appoints %}
+{% if a.status=="appointed" %}
+   <div class="container-fluid row alert alert-success">
+       <div class="col-md-3 ">
+        <i class="fa fa-check-square-o" style="font-size:60px;"></i>
+           <h4>FullName: {{a.fullname}}</h4>
+           <h4>Age: {{a.age}}</h4>
+            <h4>Choice: {{a.choice}}</h4>
+        <h4>Phone: {{a.contact}}</h4>
+        <h4>Address: {{a.address}}</h4>
+        </div>
+        </div>
+   <br>
+
+   {% endif %}
+   {% endfor %}
+
+   
+
+     {% for a in appoints %}
+{% if a.status=="cancelled" %}
+   <div class="container-fluid row alert alert-danger">
+       <div class="col-md-3 ">
+        
+           <h4>FullName: {{a.fullname}}</h4>
+           <h4>Age: {{a.age}}</h4>
+            <h4>Choice: {{a.choice}}</h4>
+        <h4>Phone: {{a.contact}}</h4>
+        <h4>Address: {{a.address}}</h4>
+        </div>
+    </div>
+   <br>
+
+   {% endif %}
+   {% endfor %}
+   
 </body>
 </html>
