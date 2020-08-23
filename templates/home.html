@@ -1,11 +1,54 @@
-{% extends "layout.html" %}
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <nav class="navbar navbar-expand-sm bg-light">
+ <a class="navbar-brand " href="{{url_for('home',id=id)}}"><h4>GetADoc</h4></a>
+
+  <!-- Links -->
+  <ul class="navbar-nav ">
+     <li class="nav-item active">
+      <a class="nav-link" href="{{url_for('home',id=id)}}">Home</a>
+    </li>
+   <li class="nav-item active">
+      <a class="nav-link" href="/about">About</a>
+    </li>
+    {% if id!=0 %}
+    {% if id%2==0 %}
+    <li class="nav-item">
+      <a class="nav-link" href="{{url_for('doctorpage',id=id)}}">My Appointments</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">Logout</a>
+    </li>
+    {% else %}
+       <li class="nav-item">
+      <a class="nav-link" href="{{url_for('searchdoctor',pid=id)}}">Book Appointment</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">Logout</a>
+    </li>
+    {% endif %}
+    {% else %}
+    <li class="nav-item">
+      <a class="nav-link" href="/login">Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/choice">SignUp</a>
+    </li>
+    {% endif %}
+
+  </ul>
+
+</nav>
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
-    {% if current_user.is_authenticated %}
-    <h3>{{ current_user.username}}</h3>
-    {% endif %}
+    <!--{% if current_user.is_authenticated %}-->
+    <!--{% endif %}-->
     {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
@@ -15,7 +58,7 @@
 {% endwith %}
 
     <h1>Hello!! Welcome to GetADoc!!!</h1>
-{% endblock %}
+ 
     
 </body>
 </html>

@@ -80,11 +80,15 @@ class PatientDetails(UserMixin,db.Model):
 
 @login_manager.user_loader        #Flask-Login retrieves the ID of the user from the session, and then loads that user into memory. 
 def load_user(id):
-    return Register.query.get(int(id))
+    if int(id)%2==0:
+        return DoctorDetails.query.get(int(id))
+    else:
+         return Register.query.get(int(id))
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+@app.route("/", defaults={'id':0})
+@app.route('//<int:id>')
+def home(id):
+    return render_template('home.html',id=id)
 
 
 @app.route('/about')
@@ -102,7 +106,8 @@ def register():
             flash('user already registered!')
         else:                                           
             password=generate_password_hash(form.password.data)      #this will produce a hashcode for any password for privacy
-            register = Register(username=form.username.data, email=form.email.data,password=password)
+            id1 = db.session.query(db.func.max(Register.id)).scalar()
+            register = Register(id=id1+2,username=form.username.data, email=form.email.data,password=password)
             db.session.add(register)
             db.session.commit()
             reg = Register.query.filter_by(email=form.email.data).first()
@@ -126,18 +131,20 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        if type=="Patient":
-            return redirect(url_for('searchdoctor',pid= user.id))
-        else:
-            appoints=PatientDetails.query.filter_by(docid=user.id,status="pending").all()
-            if len(appoints)==0:
-                flash('no pending appointments yet')
-                return redirect(url_for('doctorpage',id=user.id))
+        return redirect(url_for('home',id=user.id))
+        #if type=="Patient":
+         #   return redirect(url_for('searchdoctor',pid= user.id))
+        #else:
+            
+           # appoints=PatientDetails.query.filter_by(docid=user.id,status="pending").all()
+            #if len(appoints)==0:
+             #   flash('no pending appointments yet')
+              #  return redirect(url_for('doctorpage',id=user.id))
 
-            else:
-                no=len(appoints)
-                flash('{} appointments are pending'.format(no))
-                return redirect(url_for('doctorpage',id=user.id))
+            #else:
+             #   no=len(appoints)
+              #  flash('{} appointments are pending'.format(no))
+               # return redirect(url_for('doctorpage',id=user.id))
 
     
     return render_template('login.html',form=form)
@@ -203,16 +210,17 @@ def doctorform():
         home_visit_available=0
         if form.home_visit.data:
             home_visit_available=1
-        reg = Register.query.filter_by(email=form.email.data).first()          
+        reg = DoctorDetails.query.filter_by(email=form.email.data).first()          
         if reg is not None:                             #this if checks that the user is already registered or not
             flash('user already registered!')
         else:                                           
-            password=generate_password_hash(form.password.data)   
-            doctor=DoctorDetails(fullname=form.fullname.data,email=form.email.data,password=password,city=form.city.data,qualifications=form.qualifications.data,contact=form.contact.data,doctortype=form.doctortype.data,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
+            password=generate_password_hash(form.password.data)
+            id1 = db.session.query(db.func.max(DoctorDetails.id)).scalar()   
+            doctor=DoctorDetails(id=id1+2,fullname=form.fullname.data,email=form.email.data,password=password,city=form.city.data,qualifications=form.qualifications.data,contact=form.contact.data,doctortype=form.doctortype.data,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
             db.session.add(doctor)
             db.session.commit()
         flash('Congratulations, your data submitted successfully!')
-        return redirect(url_for('doctorpage',id=reg.id,s=0))
+        return redirect(url_for('doctorpage',id=reg.id))
     return render_template('doctor.html',form=form)
 
 
