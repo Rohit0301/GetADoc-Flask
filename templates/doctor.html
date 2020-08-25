@@ -169,10 +169,14 @@
             {% endfor %}
         </p>
 
-        <p>
-            {{form.home_visit(value="home_visit")}} {{form.home_visit.label}}
-        </p>
-        <div class="home_visit selectt"> 
+       
+       <div>
+  <input type='checkbox' name="home_visit" value="home_visit" data-toggle='collapse' data-target='#collapsediv1'>Home visit available 
+  </input>
+</div>
+<div id='collapsediv1' class='collapse div1'>
+     <div class="home_visit selectt"> 
+        <br>
          <p>
             {{ form.home_charges.label }}
             {{ form.home_charges(size=15) }}<br>
@@ -180,6 +184,32 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+      </div>
+
+</div>
+     
+
+
+
+
+
+
+
+
+
+
+
+        <p>
+         <!--   {{form.home_visit(value="home_visit")}} {{form.home_visit.label}}-->
+        </p>
+        <div class="home_visit selectt"> 
+         <!--<p>
+            {{ form.home_charges.label }}
+            {{ form.home_charges(size=15) }}<br>
+            {% for error in form.home_charges.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>-->
       </div>
         <p>{{ form.submit(class="btn btn-success btn-block") }}</p>
     

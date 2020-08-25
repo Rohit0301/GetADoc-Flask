@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
+    <title>GetADoc - Book a Doctor</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="loginstyle.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+</head>
+<body>
+    <div class="container "  style="padding-top: 6%;">
+    <div class="card bg-light mx-auto" style="max-width: 700px;">
+            <article class="card-body mx-auto" style="max-width:600px;">
+    <form action="" method="post"class="form-group">
+        {{ form.hidden_tag() }}
+         <h4 class="card-title mt-3 text-center">Reason for cancelling the appointment</h4>
+        {% for sub in form.reason %}
+        {{sub}} {{sub.label}}
+        <br>
+        {% endfor %}
+         <p>
+            {% for error in form.reason.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <div class="row container">
+            <div class="col-md-6 col-sm-6">
+        <a href="{{url_for('doctorpage',id=id)}}"><button type="button" class="btn btn-primary btn-block">Back</button></a></div>
+        <div class="col-md-6 col-sm-6">
+        {{form.submit(class="btn btn-success btn-block")}}</div>
+    </div>
+    </form>
+</article>
+</div>
+</div>
+</body>
+</html>

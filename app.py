@@ -1,10 +1,10 @@
 from flask import Flask, render_template, url_for,request,flash,redirect,session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash    #this class is used for generate and check the hashcode
-from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm,Appointments
+from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm,Appointments,Reason
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
-from datetime import datetime
+from datetime import datetime,date
 import smtplib
 
 import socket
@@ -69,6 +69,8 @@ class PatientDetails(UserMixin,db.Model):
     docid=db.Column(db.Integer,nullable=False)
     pid=db.Column(db.Integer,nullable=False)
     status=db.Column(db.String(20),nullable=False)
+    reason=db.Column(db.String(50),nullable=True)
+
 
 
 
@@ -177,11 +179,26 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
+@app.route('/reason/<int:id>/<int:pid>',methods=['GET','POST'])
+def reason(id,pid):
+    form=Reason()
+    patient=PatientDetails.query.filter_by(docid=id,status="pending",pid=pid).first()
+    re=request.form.get('reason')
+    if form.validate_on_submit():
+           patient.status="cancelled"
+           patient.reason=re
+           db.session.commit()
+           flash('Appointment cancelled')
+           return redirect(url_for('doctorpage',id=id))
+            
+    return render_template('reason.html',form=form,id=id)
+
 @app.route('/doctorpage/<int:id>')
 def doctorpage(id):
     form=Appointments()
     appoints=PatientDetails.query.filter_by(docid=id).all()
-    s=len(appoints)
+    s=len(appoints)    
     return render_template('doctorpage.html',appoints=appoints,form=form,s=s)
 
 
@@ -260,14 +277,13 @@ def patientform(id,visit,pid):
         appoint = PatientDetails.query.filter_by(docid=id).all()
         for a in appoint:
             if a.pid==pid and a.status=="pending":
-                 flash('you have already book an appointment with this doctor')     
-                 return redirect(url_for('searchdoctor',pid=pid))      
-        
-
-        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending")
+                 flash('you appointment is already under process')     
+                 return redirect(url_for('searchdoctor',pid=pid))
+        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending",reason="none")
         db.session.add(patient)
         db.session.commit()
-        return redirect(url_for('home'))# add check histroy form for a patients
+        flash('you form is submitted successfully. Please check your notification for your appointment date and time!')
+        return redirect(url_for('home',id=pid))# add check histroy form for a patients
         #s.login("arichayjian@gmail.com", "aj03012002aj") 
   
 # message to be sent 

@@ -33,8 +33,8 @@ class DoctorForm(FlaskForm):
     doctortype = SelectField(u'Doctor type', choices = myChoices,default=1)
     address = StringField('Address',[validators.Length(min=4)],widget=TextArea(),render_kw={"placeholder": "Addess"})
     home_visit=BooleanField('Home visit available')
-    home_charges=IntegerField('Home charges',render_kw={"placeholder": 0})
-    clinic_charges=IntegerField('Clinic charges',render_kw={"placeholder": 0})
+    home_charges=IntegerField('Home charges',render_kw={"placeholder": "Clinic charge"})
+    clinic_charges=IntegerField('Clinic charges',render_kw={"placeholder": "Home visit charge"})
     submit=SubmitField('Submit Details')
 
 class SearchForm(FlaskForm):
@@ -58,3 +58,7 @@ class Appointments(FlaskForm):
     #fullname=StringField('FullName',[validators.DataRequired()])
     time = TimeField('Allot Time',[validators.DataRequired()],format='%H:%M:%S')
     submit=SubmitField('Confirm')
+
+class Reason(FlaskForm):
+    reason=RadioField('Reasons',[validators.DataRequired('please select any one reason')],choices=[('Busy','Busy'),('Out of station','Out of station'),('All slots are booked','All slots are booked'),('Other','Other')])
+    submit=SubmitField('Submit')
