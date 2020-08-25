@@ -4,34 +4,34 @@ from wtforms.widgets import TextArea
 from wtforms.fields.html5 import DateField,TimeField,DateTimeLocalField
 
 class RegistrationForm(FlaskForm):
-	username=StringField('Username',[validators.DataRequired(),validators.Length(min=3,max=50)])
-	email=StringField('Email',[validators.DataRequired(),validators.Email()])
-	password=PasswordField('Password',[validators.DataRequired(),validators.Length(min=8,max=30)])
-	confirmpassword=PasswordField('Confirm Password',[validators.DataRequired(),validators.EqualTo('password')])
+	username=StringField('Username',[validators.DataRequired(),validators.Length(min=3,max=50)],render_kw={"placeholder": "Username"})
+	email=StringField('Email',[validators.DataRequired(),validators.Email()],render_kw={"placeholder": "Email"})
+	password=PasswordField('Password',[validators.DataRequired(),validators.Length(min=8,max=30)],render_kw={"placeholder": "Password"})
+	confirmpassword=PasswordField('Confirm Password',[validators.DataRequired(),validators.EqualTo('password')],render_kw={"placeholder": "Confirm Password"})
 	submit=SubmitField('Sign Up')
 
     
 
 class LoginForm(FlaskForm):
-    email=StringField('Email',[validators.DataRequired(),validators.Email()])
-    password=PasswordField('Password',[validators.DataRequired()])
+    email=StringField('Email',[validators.DataRequired(),validators.Email()],render_kw={"placeholder": "Email"})
+    password=PasswordField('Password',[validators.DataRequired()],render_kw={"placeholder": "Password"})
     remember_me=BooleanField('Remember me')
-    choice=RadioField('Choose type',choices=[('Doctor','Doctor'),('Patient','Patient')])
+    choice=RadioField('Choose type',[validators.DataRequired('Please select any one option')],choices=[('Doctor','Doctor'),('Patient','Patient')])
     submit=SubmitField('Sign In')
 
 
 class DoctorForm(FlaskForm):
-    fullname=StringField('FullName',[validators.DataRequired()])
-    email=StringField('Email',[validators.DataRequired(),validators.Email()])
-    password=PasswordField('Password',[validators.DataRequired(),validators.Length(min=8,max=30)])
-    confirmpassword=PasswordField('Confirm Password',[validators.DataRequired(),validators.EqualTo('password')])
-    city=StringField('City',[validators.DataRequired()])
-    qualifications=StringField('Qualifications',[validators.DataRequired()],render_kw={"placeholder": "ex: MBBS,BHMS,BUMS"})
-    contact=StringField('Contact',[validators.DataRequired()])
+    fullname=StringField('FullName',[validators.DataRequired()],render_kw={"placeholder": "Fullname"})
+    email=StringField('Email',[validators.DataRequired(),validators.Email()],render_kw={"placeholder": "Email"})
+    password=PasswordField('Password',[validators.DataRequired(),validators.Length(min=8,max=30)],render_kw={"placeholder": "Password"})
+    confirmpassword=PasswordField('Confirm Password',[validators.DataRequired(),validators.EqualTo('password')],render_kw={"placeholder": "Confirm Password"})
+    city=StringField('City',[validators.DataRequired()],render_kw={"placeholder": "City"})
+    qualifications=StringField('Qualifications',[validators.DataRequired()],render_kw={"placeholder": "Qualifications ex: MBBS,BHMS"})
+    contact=StringField('Contact',[validators.DataRequired()],render_kw={"placeholder": "Contact"})
     myChoices = [('Select doctor Type','Select Doctor Type'),('Allergist','Allergist'),('Cardiologist','Cardiologist'),('Audiologist','Audiologist'),('Dentist','Dentist'),('Endocrinologist','Endocrinologist'),('Epidemiologist','Epidemiologist'),('Anesthesiologist','Anesthesiologist'),('Medical Geneticist','Medical Geneticist'),('Gynaecologist','Gynaecologist'),
      ('Physiologist','Physiologist'),('Neurosurgeon','Neurosurgeon'),('Neurologist','Neurologist')]
     doctortype = SelectField(u'Doctor type', choices = myChoices,default=1)
-    address = StringField('Address',[validators.Length(min=4)],widget=TextArea())
+    address = StringField('Address',[validators.Length(min=4)],widget=TextArea(),render_kw={"placeholder": "Addess"})
     home_visit=BooleanField('Home visit available')
     home_charges=IntegerField('Home charges',render_kw={"placeholder": 0})
     clinic_charges=IntegerField('Clinic charges',render_kw={"placeholder": 0})

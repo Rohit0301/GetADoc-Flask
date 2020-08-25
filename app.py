@@ -97,6 +97,27 @@ def about():
 
 
 
+
+@app.route('/patienthistory/<int:pid>')
+def patienthistory(pid):
+    patient=PatientDetails.query.filter_by(pid=pid).all()
+    lis=[]
+    i=0
+    for p in patient:
+        d=DoctorDetails.query.filter_by(id=p.docid).first()
+        if d is not None:
+            lis.append({"doid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address})
+            
+    
+    return render_template('patienthistory.html',patient=patient,lis=lis,i=i)
+
+
+
+
+
+
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form=RegistrationForm()
@@ -118,9 +139,10 @@ def register():
     return render_template('register.html',form=form)
 
 
-@app.route('/login',methods=['GET', 'POST'])
-def login():
+@app.route('/login/<int:id>',methods=['GET', 'POST'])
+def login(id):
     form = LoginForm()
+
     if form.validate_on_submit():
         type=form.choice.data
         if type=="Doctor":
@@ -129,7 +151,7 @@ def login():
             user = Register.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('login',id=id))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('home',id=user.id))
         #if type=="Patient":
@@ -147,7 +169,7 @@ def login():
                # return redirect(url_for('doctorpage',id=user.id))
 
     
-    return render_template('login.html',form=form)
+    return render_template('login.html',form=form,id=id)
 
 
 @app.route('/logout')

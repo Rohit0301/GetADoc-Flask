@@ -4,10 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/registerstyle.css') }}">-->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="loginstyle.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <title>GetADoc - Book a Doctor</title>
+   <!-- <style type="text/css">
+    .form{
+            border:1px solid white;
+            background-color: white;
+            
+        }
+        .con{
+           padding-top: 6%;
+           padding-right: 6%;
+           padding-bottom: 6%
+           padding-left:10%;
+        }
+    </style>-->
 </head>
 <body style="background-color:powderblue;">
-    <h1>Hello!!! This is a Registation Page</h1>
+
     {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
@@ -15,40 +34,81 @@
     {% endfor %}
    {% endif %}
    {% endwith %}
-
-    <form action="" method="post">
+<div class="container "  style="padding-top: 6%;">
+    <div class="card bg-light mx-auto" style="max-width: 800px;">
+            <article class="card-body mx-auto" style="max-width:400px;">
+    <form action="" method="post"class="form-group">
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=32) }}<br>
-            {% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.confirmpassword.label }}<br>
-            {{ form.confirmpassword(size=32) }}<br>
-            {% for error in form.confirmpassword.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
+        <!--<div class="col-md-5 col-sm-6 form">-->
 
-        <p>{{ form.submit() }}</p>
+        <h4 class="card-title mt-3 text-center">Create Account</h4>
+        <p class="text-center">Get started with your free account</p>
+        <hr>
+
+        <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-user">
+            </i> </span>
+         </div>
+            {{ form.username(size=32,class="form-control") }}<br>
+        </div>
+    
+            <p>
+            {% for error in form.username.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+     
+    <br>
+         <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-envelope">
+            </i> </span>
+         </div>
+            {{ form.email(size=32,class="form-control") }}<br>
+             </div>
+            <p>
+            {% for error in form.email.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <br>
+     
+             <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock">
+            </i> </span>
+         </div>   
+            {{ form.password(size=32,class="form-control") }}<br></div>
+            {% for error in form.password.errors %}
+            <p>
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+    <br>
+
+     <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock">
+            </i> </span>
+         </div>
+            {{ form.confirmpassword(size=32,class="form-control") }}<br>
+        </div>
+            <p>
+            {% for error in form.confirmpassword.errors %}
+            <span style="color: red;"> {{ error }}</span>
+            {% endfor %}
+        </p>
+        <br>
+
+  <div>
+        <p>{{ form.submit(class="btn btn-success btn-block") }}</p>
+    </div>
+    
+    <p class="text-center">Have an account?<a href="/login/0">Log In</a></p>
     </form>
-    <small><a href="/login">Already have an account?Login here</a></small>
+</article>
+</div>
+</div>
 </body>
 </html>

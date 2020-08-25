@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="loginstyle.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/registerstyle.css') }}">-->
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body style="background-color:powderblue;">
-    <h1>Hello!!! This is a Doctor Form Page</h1>
     {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
@@ -15,74 +22,146 @@
     {% endfor %}
    {% endif %}
    {% endwith %}
- 
+ <div class="container">
+    <div class="card bg-light mx-auto" style="max-width: 900px;">
+            <article class="card-body mx-auto" style="max-width:700px;">
     <form action="" method="post">
         {{ form.hidden_tag() }}
+        <h4 class="card-title mt-3 text-center">Create Account</h4>
+        <p class="text-center">Get started with your free account</p>
+        <hr>
+
+
+        <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-user">
+            </i> </span>
+         </div>
+            {{ form.fullname(size=40,class="form-control") }}<br>
+        </div>
         <p>
-            {{ form.fullname.label }}<br>
-            {{ form.fullname(size=32) }}<br>
             {% for error in form.fullname.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-         <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=32) }}<br>
+         
+
+           <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-envelope">
+            </i> </span>
+         </div>
+            {{ form.email(size=40,class="form-control") }}<br>
+        </div>
+        <p>
             {% for error in form.email.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+        
+
+
+        <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock">
+            </i> </span>
+         </div>
+            {{ form.password(size=40,class="form-control") }}<br>
+        </div>
         <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+        
+           
+
+
+           <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock">
+            </i> </span>
+         </div>
+            {{ form.confirmpassword(size=40,class="form-control") }}<br>
+        </div>
         <p>
-            {{ form.confirmpassword.label }}<br>
-            {{ form.confirmpassword(size=32) }}<br>
             {% for error in form.confirmpassword.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
-            {{ form.city.label }}<br>
-            {{ form.city(size=32) }}<br>
+        
+           
+
+           <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fas fa-city">
+            </i> </span>
+         </div>
+            {{ form.city(size=40,class="form-control") }}<br>
+            </div>
+            <p>
             {% for error in form.city.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+        
+           
+
+           <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-graduation-cap">
+            </i> </span>
+         </div>
+            {{ form.qualifications(size=40,class="form-control") }}<br>
+        </div>
         <p>
-            {{ form.qualifications.label }}<br>
-            {{ form.qualifications(size=32) }}<br>
             {% for error in form.qualifications.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+          
+
+
+
+          <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-phone">
+            </i> </span>
+         </div>
+            {{ form.contact(size=40,class="form-control") }}<br>
+        </div>
         <p>
-            {{ form.contact.label }}<br>
-            {{ form.contact(size=32) }}<br>
             {% for error in form.contact.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
 
-        <p>
+          
             {{ form.doctortype.label }}
-            {{ form.doctortype }}<br>
+            {{ form.doctortype}}<br>
             {% for error in form.doctortype.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-         <p>
-            {{ form.address.label }}<br>
-            {{ form.address(cols="32",rows="10") }}<br>
+         
+
+
+         <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-address-card" style="font-size: 20px;">
+            </i> </span>
+         </div>
+            {{ form.address(cols="25",rows="10",class="form-control") }}<br>
+        </div>
+        <p>
             {% for error in form.address.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-         <p>
+         
+
+
+
             {{ form.clinic_charges.label }}
             {{ form.clinic_charges(size=15) }}<br>
             {% for error in form.clinic_charges.errors %}
@@ -102,8 +181,12 @@
             {% endfor %}
         </p>
       </div>
-        <p>{{ form.submit() }}</p>
-    </form>
-    <small><a href="/login">Already have an account?Login here</a></small>
+        <p>{{ form.submit(class="btn btn-success btn-block") }}</p>
+    
+    <p class="text-center">Have an account?<a href="/login/0">Login here</a></ps>
+</form>
+</article>
+</div>
+</div>
 </body>
 </html>

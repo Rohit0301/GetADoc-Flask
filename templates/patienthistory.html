@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
+    <title>GetADoc - Book a Doctor</title>
+</head>
+<body>
+    <h1>Your history</h1>
+     {% set i=0 %}
+    {% for p in patient%}
+       
+      <div>
+          Dr {{lis[i].docname}} gave you an appointment Date : {{p.appointmentdate}} ,time {{p.appointmenttime}}
+          Contact: {{lis[i].contact}}, Address: {{lis[i].address}}
+          {% set i=i+1 %}
+          <br>
+          <br>
+      </div>
+
+
+    {% endfor%}
+</body>
+</html>
