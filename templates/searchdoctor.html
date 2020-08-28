@@ -5,7 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="loginstyle.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <title>GetADoc - Book a Doctor</title>
+    <style type="text/css">
+      .main {
+    width: 50%;
+    margin: 50px auto;
+}
+
+/* Bootstrap 4 text input with search icon */
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+     
+
+    </style>
 </head>
 <body>
     <h1>search the doctor</h1>
@@ -18,50 +51,63 @@
     {% endfor %}
    {% endif %}
    {% endwith %}
+   
+
 
     <form action="" method="post">
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.city.label }}
-            {{ form.city(size=32) }}
+        <div class="main">
+        <div class="input-group">
+            {{ form.city(size=50,class="form-control") }}
             {% for error in form.city.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
-        </p>
-        <p>{{ form.search() }}</p>
+        <div class="input-group-append">
+           <button class="btn btn-secondary" type="Submit">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  </div>
+  </div>
    </form>
 
+
+<br>
+<br>
    {% for d in doctor%}
-   <div class="container-fluid row ">
-       <div class="col-md-3 card">
-        <div class="card header">
-        <h1>Details</h1>
-         </div>
+   <div class="container-fluid row " style="background-color: bisque;">
+       <div class="col-md-3 col">
+        <br>
+        <h3><span style="color: chocolate;">Details</span></h3>
         
-           <h2>FullName={{d.fullname}}</h2>
-           <h4>Qualifications={{d.qualifications}}</h4>
-           <h4>DocterType={{d.doctortype}}</h4>
-           <h4>City={{d.city}}</h4>
+           <h5><b>FullName : </b></h5><h6>{{d.fullname}}</h6>
+           <h5><b>Qualifications : </b></h5><h6>{{d.qualifications}}</h6>
+           <h5><b>DocterType : </b></h5><h6>{{d.doctortype}}</h6>
+           <h5><b>City: </b>{{d.city}}</h5>
     </div>
-        <div class="col-md-3">
-        <h1>Contact Details</h1>
-        <h4>Phone={{d.contact}}</h4>
-        <h4>Email={{d.email}}</h4>
-        <h4>Address={{d.address}}</h4>
+        <div class="col-md-3 col">
+          <br>
+        <h3><span style="color: chocolate;">Contact Details</span></h3>
+        <h5><b>Phone : </b></h5><h6>{{d.contact}}</h6>
+        <h5><b>Email : </b></h5><h6>{{d.email}}</h6>
+        <h5><b>Address : </b></h5><h6>{{d.address}}</h6>
         </div>
-        <div class="col-md-3">
-        <h1>Charges</h1>
-        <h4>Clinic Charges={{d.clinic_charge}}</h4>
+        <div class="col-md-3 col">
+          <br>
+        <h3><span style="color: chocolate;">Charges</span></h3>
+        <h5><b>Clinic Charges : </b></h5><h6>{{d.clinic_charge}}</h6>
         {% if d.home_visit_available==1 %}
-        <span>Home visit available</span>
-        <h4>Home visit Charges={{d.home_charge}}</h4>
+        <span style="color: green;"><i class="fa fa-check" style="font-size:20px;"></i> Home visit available</span>
+        <h5>Home visit Charges : </h5><h6>{{d.home_charge}}</h6>
         {% else %}
-        <span>Home visit not available</span>
+        <span style="color: red;"><i class="fa fa-times" style="font-size:20px;"></i> Home visit not available</span>
         {% endif %}
 
          </div>
-         <div class="col-mid-2">
-       <a href="{{url_for('patientform',id=d.id,visit=d.home_visit_available,pid=pid)}}"> <button type="submit" class="btn btn-primary">Book appointment</button></a>
+         <div class="col-mid-2 col">
+          <br>
+          <br>
+       <a href="{{url_for('patientform',id=d.id,pid=pid)}}"> <button type="submit" class="btn btn-outline-success" btn-block">Book appointment</button></a>
        </div>
    </div>
    <br>

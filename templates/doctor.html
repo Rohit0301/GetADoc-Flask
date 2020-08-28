@@ -14,7 +14,7 @@
    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/registerstyle.css') }}">-->
     <title>GetADoc - Book a Doctor</title>
 </head>
-<body style="background-color:powderblue;">
+<body>
     {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
@@ -23,8 +23,8 @@
    {% endif %}
    {% endwith %}
  <div class="container">
-    <div class="card bg-light mx-auto" style="max-width: 900px;">
-            <article class="card-body mx-auto" style="max-width:700px;">
+    <div class="card bg-light mx-auto" style="max-width: 100%;">
+            <article class="card-body mx-auto" style="max-width:100%;">
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <h4 class="card-title mt-3 text-center">Create Account</h4>
@@ -41,7 +41,7 @@
         </div>
         <p>
             {% for error in form.fullname.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
          
@@ -132,15 +132,39 @@
         </div>
         <p>
             {% for error in form.contact.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
 
           
-            {{ form.doctortype.label }}
-            {{ form.doctortype}}<br>
+        
+                <div class="col">
+            {{ form.doctortype(class="form-control")}}
+        
+                   <br>
+
+  <input type='checkbox'  name="Other specialisation" value="Other specialisation" data-toggle='collapse' data-target='#collapsediv2'>Other Specialisation</input>
+
+<div id='collapsediv2' class='collapse div2'>
+     <div class="home_visit selectt"> 
+        <br>
+         <p>
+            {{ form.specialisation.label }}
+            {{ form.specialisation(size=15,class="form-control") }}<br>
+            {% if flag==1 %}
+            <span style="color: red;">Please enter your specialisation</span>
+            {% endif %}
+            {% for error in form.home_charges.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+      </div>
+
+</div>
+
+            <br>
             {% for error in form.doctortype.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
          
@@ -155,7 +179,7 @@
         </div>
         <p>
             {% for error in form.address.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
          
@@ -163,15 +187,15 @@
 
 
             {{ form.clinic_charges.label }}
-            {{ form.clinic_charges(size=15) }}<br>
+            {{ form.clinic_charges(size=15,class="form-control") }}<br>
             {% for error in form.clinic_charges.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
 
        
        <div>
-  <input type='checkbox' name="home_visit" value="home_visit" data-toggle='collapse' data-target='#collapsediv1'>Home visit available 
+  <input type='checkbox' name="Home_visit" value="Home_visit" data-toggle='collapse' data-target='#collapsediv1'>Home visit available 
   </input>
 </div>
 <div id='collapsediv1' class='collapse div1'>
@@ -179,9 +203,12 @@
         <br>
          <p>
             {{ form.home_charges.label }}
-            {{ form.home_charges(size=15) }}<br>
+            {{ form.home_charges(size=15,class="form-control") }}<br>
+             {% if visit==1 %}
+            <span style="color: red;">Please enter your Home visit charges</span>
+            {% endif %}
             {% for error in form.home_charges.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
       </div>

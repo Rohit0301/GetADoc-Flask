@@ -18,19 +18,12 @@
             background-color: white;
             
         }
-        .email{
-            padding-top: 20px;
-        }
-        .con{
-           padding-top: 6%;
-           padding-right: 6%;
-           padding-bottom: 6%
-           padding-left:6%;
-        }
+        
+        
 
     </style>
 </head>
-<body style="background-color:powderblue; ">
+<body>
     
     {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -39,9 +32,10 @@
     {% endfor %}
    {% endif %}
    {% endwith %}
-<div class="container con">
+   <center>
+<div class="container" style="padding-top: 4%;">
     <div class="card bg-light mx-auto" style="max-width: 500px;">
-            <article class="card-body mx-auto" style="max-width:400px;">
+            <article class="card-body mx-auto" style="max-width:500px;">
     <form action="" method="post" class="form-group ">
         {{ form.hidden_tag() }}
         
@@ -72,14 +66,14 @@
                 <div class="col-md-1 col-sm-1">
             
                 </div>
-    <div class="col-md-5 col-sm-5">
+    <div class="col-md-5 col">
 <div class="card" style="width:80px">
   <img class="card-img-top" src="{{url_for('static',filename='img/log2.jpeg')}}" alt="Card image">
   </div>
                  
 </div>
 
-<div class="col-md-5 col-sm-5">
+<div class="col-md-5 col">
 <div class="card" style="width:80px">
   <img class="card-img-top" src="{{url_for('static',filename='img/log1.jpeg')}}" alt="Card image">
   </div>
@@ -118,9 +112,9 @@
         </p>
     </div>
     <div class="row ">
-    <div class="col-md-6 col-sm-6">
+    <div class="col-md-6 col">
         <a href="{{url_for('home',id=id)}}"><button type="button" class="btn btn-danger btn-lg btn-block">Cancel</button></a></div>
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-6 col">
         <p>{{ form.submit(class="btn btn-primary btn-lg btn-block") }}</p>
     </div>
 </div>
@@ -129,5 +123,6 @@
 </article>
 </div>
 </div>
+</center>
 </body>
 </html>

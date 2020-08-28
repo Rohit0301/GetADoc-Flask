@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="loginstyle.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
  
     <title>GetADoc - Book a Doctor</title>
 </head>
@@ -16,29 +22,28 @@
     {% endfor %}
    {% endif %}
    {% endwith %}
-    <h1>hello Doctor!!</h1>
 
 
 
- <div class="container-fluid row ">
-       <div class="col-md-3">
-        
+<div class="container-sm container-md "  style="padding-top: 6%;">
+    <div class="card bg-light mx-auto" style="max-width: 800px;">
+            <article class="card-body mx-auto" style="max-width:400px;">
+        <h2 class="card-title mt-3 text-center">Confirm Appointment</h2>
+        <hr>
            <h4>FullName: {{appoints.fullname}}</h4>
            <h4>Age: {{appoints.age}}</h4>
             <h4>Choice: {{appoints.choice}}</h4>
         <h4>Phone: {{appoints.contact}}</h4>
         <h4>Address: {{appoints.address}}</h4>
 
-        </div>
-      </div>
 
-<form method="post">
+<form method="post" class="form-group">
     {{ form.hidden_tag() }}
          <p>
              {{form.time.label}}
              {{form.time(size=32)}}
              {% for error in form.time.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
          </p>
     
@@ -46,12 +51,22 @@
             {{ form.date.label }}
             {{ form.date(size=32) }}
             {% for error in form.date.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p><br>
-        <p>{{form.submit()}}</p>
+        <div class="container">
+          <div class="row">
+         <div class="col">
+          <a href="{{url_for('doctorpage',id=appoints.docid)}}"><button class="btn btn-primary btn-block" type="button">Cancel</button></a></div>
+          <div class="col">
+          {{form.submit(class="btn btn-success btn-block")}}</div>
+        </div>
+      </div>
+        
 </form>
-        <!--<a href="{{url_for('doctorpage',id=appoints.docid)}}"> <button type="submit" class="btn btn-success">Confirm appointment</button></a>-->
+</article>
+ </div>
+ </div>       <!--<a href="{{url_for('doctorpage',id=appoints.docid)}}"> <button type="submit" class="btn btn-success">Confirm appointment</button></a>-->
 
 
 

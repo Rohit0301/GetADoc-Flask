@@ -28,13 +28,16 @@ class DoctorForm(FlaskForm):
     city=StringField('City',[validators.DataRequired()],render_kw={"placeholder": "City"})
     qualifications=StringField('Qualifications',[validators.DataRequired()],render_kw={"placeholder": "Qualifications ex: MBBS,BHMS"})
     contact=StringField('Contact',[validators.DataRequired()],render_kw={"placeholder": "Contact"})
-    myChoices = [('Select doctor Type','Select Doctor Type'),('Allergist','Allergist'),('Cardiologist','Cardiologist'),('Audiologist','Audiologist'),('Dentist','Dentist'),('Endocrinologist','Endocrinologist'),('Epidemiologist','Epidemiologist'),('Anesthesiologist','Anesthesiologist'),('Medical Geneticist','Medical Geneticist'),('Gynaecologist','Gynaecologist'),
+    myChoices = [('Select Specialisation','Select Specialisation'),('Allergist','Allergist'),('Cardiologist','Cardiologist'),('Audiologist','Audiologist'),('Dentist','Dentist'),('Endocrinologist','Endocrinologist'),('Epidemiologist','Epidemiologist'),('Anesthesiologist','Anesthesiologist'),('Medical Geneticist','Medical Geneticist'),('Gynaecologist','Gynaecologist'),
      ('Physiologist','Physiologist'),('Neurosurgeon','Neurosurgeon'),('Neurologist','Neurologist')]
     doctortype = SelectField(u'Doctor type', choices = myChoices,default=1)
     address = StringField('Address',[validators.Length(min=4)],widget=TextArea(),render_kw={"placeholder": "Addess"})
     home_visit=BooleanField('Home visit available')
+    other=BooleanField('Other')
+    specialisation=StringField('Enter your Specialisation',render_kw={"placeholder": "Specialisation"})
     home_charges=IntegerField('Home charges',render_kw={"placeholder": "Clinic charge"})
     clinic_charges=IntegerField('Clinic charges',render_kw={"placeholder": "Home visit charge"})
+
     submit=SubmitField('Submit Details')
 
 class SearchForm(FlaskForm):
@@ -43,10 +46,10 @@ class SearchForm(FlaskForm):
 
 
 class PatientForm(FlaskForm):
-    fullname=StringField("Patient's FullName",[validators.DataRequired()])
-    contact=StringField("Patient's Contact",[validators.DataRequired()])
-    address = StringField("Patient's Address",[validators.Length(min=4)],widget=TextArea())
-    age=IntegerField("Patients's Age",[validators.DataRequired()])
+    fullname=StringField("Patient's FullName",[validators.DataRequired()],render_kw={"placeholder": " Patient's FullName"})
+    contact=StringField("Patient's Contact",[validators.DataRequired()],render_kw={"placeholder": "Patient's Phone No"})
+    address = StringField("Patient's Address",[validators.Length(min=4)],widget=TextArea(),render_kw={"placeholder": "Patient's Address"})
+    age=IntegerField("Patients's Age",[validators.DataRequired()],render_kw={"placeholder": "Patient's Age"})
     myChoices=[('Year','Year'),('Month','Month')]
     type= SelectField(u'Type', choices = myChoices,default=1)
     choice=RadioField('Choose preference',choices=[('Home Visit','Home Visit'),('Clinic','Clinic')])

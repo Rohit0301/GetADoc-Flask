@@ -14,8 +14,8 @@
 </head>
 <body>
     <div class="container "  style="padding-top: 6%;">
-    <div class="card bg-light mx-auto" style="max-width: 700px;">
-            <article class="card-body mx-auto" style="max-width:600px;">
+    <div class="card bg-light mx-auto" style="max-width: 900px;">
+            <article class="card-body mx-auto" style="max-width:900px;">
     <form action="" method="post"class="form-group">
         {{ form.hidden_tag() }}
          <h4 class="card-title mt-3 text-center">Reason for cancelling the appointment</h4>
@@ -29,9 +29,9 @@
             {% endfor %}
         </p>
         <div class="row container">
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col">
         <a href="{{url_for('doctorpage',id=id)}}"><button type="button" class="btn btn-primary btn-block">Back</button></a></div>
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-6 col">
         {{form.submit(class="btn btn-success btn-block")}}</div>
     </div>
     </form>

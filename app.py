@@ -109,7 +109,7 @@ def patienthistory(pid):
         d=DoctorDetails.query.filter_by(id=p.docid).first()
         if d is not None:
             lis.append({"doid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address})
-            
+    i=len(lis)-1      
     
     return render_template('patienthistory.html',patient=patient,lis=lis,i=i)
 
@@ -247,15 +247,21 @@ def doctorform():
     form=DoctorForm()
     if form.validate_on_submit():
         home_visit_available=0
+        specialisation=""
         if form.home_visit.data:
             home_visit_available=1
+        if form.other.data:
+               specialisation=form.specialisation.data
+        else:
+            specialisation=form.doctortype.data
+
         reg = DoctorDetails.query.filter_by(email=form.email.data).first()          
         if reg is not None:                             #this if checks that the user is already registered or not
             flash('user already registered!')
         else:                                           
             password=generate_password_hash(form.password.data)
             id1 = db.session.query(db.func.max(DoctorDetails.id)).scalar()   
-            doctor=DoctorDetails(id=id1+2,fullname=form.fullname.data,email=form.email.data,password=password,city=form.city.data,qualifications=form.qualifications.data,contact=form.contact.data,doctortype=form.doctortype.data,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
+            doctor=DoctorDetails(id=id1+2,fullname=form.fullname.data,email=form.email.data,password=password,city=form.city.data,qualifications=form.qualifications.data,contact=form.contact.data,doctortype=specialisation,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
             db.session.add(doctor)
             db.session.commit()
         flash('Congratulations, your data submitted successfully!')
@@ -265,15 +271,12 @@ def doctorform():
 
 
 
-@app.route('/patientform/<int:id>/<int:visit>/<int:pid>',methods=['GET','POST'])
-def patientform(id,visit,pid):
+@app.route('/patientform/<int:id>/<int:pid>',methods=['GET','POST'])
+def patientform(id,pid):
     form=PatientForm()
-    if form.validate_on_submit():
-        home=form.choice.data
-        if visit==0 and home=="Home Visit":
-            flash('Sorry !! Doctor is not available for home visit please choose clinic option')
-            return redirect(url_for('patientform',id=id,visit=visit,pid=pid))
-
+    reg = DoctorDetails.query.filter_by(id=id).first()
+    visit=reg.home_visit_available          
+    if request.method=="POST":
         appoint = PatientDetails.query.filter_by(docid=id).all()
         for a in appoint:
             if a.pid==pid and a.status=="pending":

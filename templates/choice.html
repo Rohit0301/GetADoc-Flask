@@ -9,33 +9,26 @@
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
-    <center>
-    <h1>Choose the any one option</h1>
+    <h2 class="card-title mt-3 text-center">Choose Account Type</h2>
     <br>
     <br>
-      
-<div class="row">
-    <div class="col-md-7">
-<div class="card" style="width:400px">
+    
+      <div class="row container">
+<div class="card mx-auto" style="max-width:500px">
+   <article class="card-body mx-auto" style="max-width:500px;">
   <img class="card-img-top" src="{{url_for('static',filename='img/Patient2.png')}}" alt="Card image">
-  <div class="card-body">
     <h4 class="card-title">Patient</h4>
-    <p class="card-text"></p>
    <a href="/register" > <button class="btn btn-primary"> Patient SignUp</button></a>
+ </article>
   </div>
-</div>
-</div>
-<div class="col-md-4">
-<div class="card" style="width:400px">
+  <br>
+<div class="card mx-auto" style="max-width:500px">
+  <article class="card-body mx-auto" style="max-width:500px;">
   <img class="card-img-top" src="{{url_for('static',filename='img/doctor1.jpeg')}}" alt="Card image">
-  <div class="card-body">
     <h4 class="card-title">Doctor</h4>
-    <p class="card-text"></p>
    <a href="/doctorform" > <button class="btn btn-success">Doctor SignUp</button></a>
+ </article>
   </div>
 </div>
-</div>
-</div>
-</center>
 </body>
 </html>
