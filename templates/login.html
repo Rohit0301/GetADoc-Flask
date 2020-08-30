@@ -66,23 +66,20 @@
                 <div class="col-md-1 col-sm-1">
             
                 </div>
-    <div class="col-md-5 col">
-<div class="card" style="width:80px">
-  <img class="card-img-top" src="{{url_for('static',filename='img/log2.jpeg')}}" alt="Card image">
+    <div class="col-md-5  col">
+<div class="card " style="width:80px;border-radius: 50%; margin-right: 30px;">
+  <img class="card-img-top" src="{{url_for('static',filename='img/log2.jpeg')}}" alt="Card image" style="border-radius: 50%;">
   </div>
-                 
+                
 </div>
 
 <div class="col-md-5 col">
-<div class="card" style="width:80px">
-  <img class="card-img-top" src="{{url_for('static',filename='img/log1.jpeg')}}" alt="Card image">
+<div class="card" style="width:80px ;border-radius: 50%; margin-left: 20px;">
+  <img class="card-img-top" src="{{url_for('static',filename='img/log1.jpeg')}}" alt="Card image" style="border-radius: 50%;">
   </div>
 </div>
 </div>
-                 &nbsp;
-                 &nbsp;
-                &nbsp;
-                 &nbsp;
+                 
           {% for error in form.choice.errors %}
             <span style="color: red;">{{error}}</span>
         {% endfor %}

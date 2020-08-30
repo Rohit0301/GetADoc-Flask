@@ -5,6 +5,8 @@ from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm,A
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
 from datetime import datetime,date
+#from SQLAlchemy import ForeignKey
+#from sqlalchemy.orm import relationship
 import smtplib
 
 import socket
@@ -104,14 +106,14 @@ def about():
 def patienthistory(pid):
     patient=PatientDetails.query.filter_by(pid=pid).all()
     lis=[]
-    i=0
     for p in patient:
         d=DoctorDetails.query.filter_by(id=p.docid).first()
         if d is not None:
-            lis.append({"doid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address})
-    i=len(lis)-1      
+            lis.append({"doid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address,"status":p.status,"appointmentdate":p.appointmentdate,"appointmenttime":str(p.appointmenttime)})
+    lis.reverse()    
+
     
-    return render_template('patienthistory.html',patient=patient,lis=lis,i=i)
+    return render_template('patienthistory.html',patient=patient,lis=lis)
 
 
 

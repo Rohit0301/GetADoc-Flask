@@ -9,22 +9,20 @@
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
+
     <h1>Notifications</h1>
-    {% for p in patient | reverse %}
-       {% if p.status=="appointed"%}
+    {% for li in lis %}
+       {% if li.status=="appointed"%}
       <div class="alert alert-success">
-          Dr {{lis[i].docname}} gave you an appointment Date : {{p.appointmentdate}} ,time {{p.appointmenttime}}
-          Contact: {{lis[i].contact}}, Address: {{lis[i].address}}
-          {% set i=i-1 %}
+          Dr {{li.docname}} gave you an appointment Date : {{li.appointmentdate}} ,time {{li.appointmenttime}}
+          Contact: {{li.contact}}, Address: {{li.address}}
       </div>
       {% endif %}
-       {% if p.status=="cancelled"%}
+       {% if li.status=="cancelled"%}
       <div class="alert alert-danger">
-          Dr {{lis[i].docname}} cancelled your appointment
-          {% set i=i-1 %}
+          Dr {{li.docname}} cancelled your appointment
       </div>
-      {% endif %}
-            
+      {% endif %}   
 
     {% endfor%}
 </body>
