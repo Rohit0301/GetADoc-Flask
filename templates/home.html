@@ -14,6 +14,7 @@
   <link rel="stylesheet" type="text/css" href="loginstyle.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
   <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
   /* Make the image fully responsive */
@@ -81,6 +82,17 @@
     transform: rotateY(-180deg);
 }
 
+.fa {
+  
+  text-align: center;
+  background: #484848;
+  color:white;
+}
+.footer{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+ 
 
   </style>
  
@@ -90,7 +102,7 @@
 
 <div style="text-align: center;"> <h1>GetADoc</h1></div>
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: antiquewhite;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: grey;">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -99,10 +111,10 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="{{url_for('home',id=id)}}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{url_for('home',id=id)}}" style="color: white;">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{url_for('about')}}">About</a>
+        <a class="nav-link" href="{{url_for('about')}}" style="color: white;">About</a>
       </li>
       
          {% if id!=0 %}
@@ -165,13 +177,13 @@
   <!-- The slideshow -->
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="static/img/front 2.1.jpg" alt="Image">
+      <img src="static/img/c.jpg" alt="Image" >
     </div>
     <div class="carousel-item">
-      <img src="static/img/front 1.jpg" alt="Chicago">
+      <img src="static/img/b.jpg" alt="Image">
     </div>
     <div class="carousel-item">
-      <img src="static/img/front 3.jpg" alt="New York">
+      <img src="static/img/doctor2.jpeg" alt="Image">
     </div>
   </div>
 
@@ -187,18 +199,38 @@
 
 <br>
 <br>
+<center>
+<div class="container">
+<div class ="row">
+  <div class="col-md-4 ">
+  
+      <div class="circle ml-2"><i class="fas fa-check" style="font-size:30px;"></i>
+      </div>
+      <b><h5>Make an appointment</h5></b>
+    </div>
+  <div class="col-md-4 "> 
+    <div class="circle ml-3"><i class="fas fa-user-md" style="font-size:30px;"></i>
+    </div>
+   <b><h5>Help by specialist</h5></b>
 
+</div>
+  <div class="col-md-4 ">
+    <div class="circle ml-2"><i class="fas fa-notes-medical" style="font-size:30px;"></i>
+    </div>
+   <b><h5>Get diagnostic report</h5></b>
+ </div>
+</div>
 
-
-
-
-
+</div>
+</center>
+<br>
 
 
 
 
 
 <!--Carousel Wrapper-->
+<div class="container">
 <div id="multi-item-example" class="carousel slide carousel-multi-item " data-ride="carousel">
 
   <!--Controls-->
@@ -223,34 +255,34 @@
     <!--First slide-->
     <div class="carousel-item  active">
  <div class="row">
-      <div class="col-md-3 mb-2 card-container">
+      <div class="col-md-3  mb-2 card-container">
         <div class="card-flip" style="background-color: coral; border-radius: 15px; border-radius: 15px;">
            <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
+            <b>Doctor to be Consult : </b> Endocrinologists</div>
               <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
         </div>
       </div>
-      <div class="col-md-3 mb-2 card-container">
+      <div class="col-md-3  mb-2 card-container">
         <div class="card-flip" style="background-color: darkorchid; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Acidity</h2>
+            <b>Doctor to be Consult : </b> Gastroenterologists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Headaches <br> 2.  Indigestion <br> 3. Easy Fatique <br> 4. Heart Burn <br> 5. Muscle Cramping <br> 6. Mouth Ulcers</div>
         </div>
       </div>
      
-      <div class="col-md-3 mb-2 card-container">
+      <div class="col-md-3  mb-2 card-container">
         <div class="card-flip" style="background-color: darkkhaki; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Heart Disease</h2>
+            <b>Doctor to be Consult : </b> Cardiologists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Pain or Discomfort in Chest <br> 2. Lightaededness, nausea, or vomitimg <br> 3. Jaw, neck or back pain <br> 4. Discomfort or pain in arm or sholder <br> 5. Shortness of Breath</div>
         </div>
       </div>
      
-      <div class="col-md-3 mb-2 card-container">
+      <div class="col-md-3  mb-2 card-container">
         <div class="card-flip" style="background-color: deeppink; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Cancer</h2>
+            <b>Doctor to be Consult : </b> Oncologistss</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Low-grade Fever <br> 2. Fatique Dizziness <br> 3. Nausea Vomiting <br> 4. Excessive Sweating <br> 5. Low of Appetite, Unexplained Weight Loss <br> 6. Abdominal Discomfort</div>
         </div>
       </div>
      
@@ -265,34 +297,34 @@
 
 <div class="carousel-item ">
  <div class="row">
-      <div class="col-md-3 mb-2 card-container">
+      <div class="col-md-3  mb-2 card-container">
         <div class="card-flip" style="background-color: crimson; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Thyroid</h2>
+            <b>Doctor to be Consult : </b> Endocrinologists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Fatigue <br> 2. Weakness <br> 3. Intolerance <br> 4. Weight gain <br> 5. Goiter <br> 6.Muscle aches and cramps</div>
         </div>
       </div>
-      <div class="col-md-3 mb-2 card-container">
+      <div class="col-md-3  mb-2 card-container">
         <div class="card-flip" style="background-color: hotpink; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Joint pains</h2>
+            <b>Doctor to be Consult : </b>Rheumatologists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Joint redness <br> 2. Joint swelling <br> 3. Joint tenderness<br> 4. Joint warmth <br> 5. Limping <br> 6. Stiffness</div>
         </div>
       </div>
      
-      <div class="col-md-3 mb-2 card-container">
+      <div class="col-md-3  mb-2 card-container">
         <div class="card-flip" style="background-color: gold; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Allergies</h2>
+            <b>Doctor to be Consult : </b> Allergists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Sneezing and an itchy(allergic rhinitis) <br> 2. Itchy,red watering eyes(conjunctivis) <br> 3. A raised,itchy,red rash(hives) <br> 4. Swollen lips,tounge,eyes <br> 5. Dry,red and cracked skin</div>
         </div>
       </div>
      
-      <div class="col-md-3 mb-2 card-container">
+      <div class="col-md-3  mb-2 card-container">
         <div class="card-flip" style="background-color: dodgerblue; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 30px;"> <h2 >Cold fever and throat infection</h2>
+            <b>Doctor to be Consult : </b> Otolaryngologists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4><b> 1. Cold : </b>A blocked or runny nose  , headaches , sneezing <br> <b>2. Fever :</b> Sweating , chills and shivering , dehydration <br><b> 3. Throat infection :</b> Pain or a scratchy sensation, difficulty swallowing , red tonsiles </div>
         </div>
       </div>
      
@@ -309,34 +341,34 @@
 
 <div class="carousel-item ">
  <div class="row">
-      <div class="col-md-3 mb-6 card-container">
+      <div class="col-md-3 mb-2 card-container">
         <div class="card-flip" style="background-color: orangered; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Tooth Issues</h2>
+            <b>Doctor to be Consult : </b> Dentist</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Sensitive teeth <br> 2. Bleeding or sore gums<br> 3. Bad breath <br> 4. Dry mouth <br> 5. Oral piercing infection <br> 6. Cracked or broken teeth</div>
         </div>
       </div>
-      <div class="col-md-3 mb-6 card-container">
+      <div class="col-md-3 mb-2 card-container">
         <div class="card-flip" style="background-color: sienna; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Skin Issues</h2>
+            <b>Doctor to be Consult : </b> Dermatologists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Raised bumps that are red or white <br> 2. A rash <br> 3. Scaly or rough skin <br> 4. Ulcers <br> 5. Open sores or lesions <br> 6. Dry ,cracked skin</div>
         </div>
       </div>
      
-      <div class="col-md-3 mb-6 card-container">
+      <div class="col-md-3 mb-2 card-container">
         <div class="card-flip" style="background-color:turquoise; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 40px;"> <h2 >Brain and Spinal cord Issue</h2>
+            <b>Doctor to be Consult : </b> Neurologists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Muscle weakness <br> 2. Changes in reflexes<br> 3. Loss of bladder control <br> 4. Erectile dysfunction <br> 5. Diminished sweating <br> 6. Paralysis</div>
         </div>
       </div>
      
-      <div class="col-md-3 mb-6 card-container">
+      <div class="col-md-3 mb-2 card-container">
         <div class="card-flip" style="background-color: limegreen; border-radius: 15px; border-radius: 15px;">
-           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Diabetes</h2>
-            <b>Consult Doctor : </b> Endocrinologists</div>
-              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Chest pain , shoulder and arms <br> 2. Difficulty breathing <br> 3. Sweating <br> 4. Pale skin <br> 5. Dizziness <br> 6. Nausea</div>
+           <div class="front" style="text-align:center; padding-top: 60px;"> <h2 >Kidney diseases</h2>
+            <b>Doctor to be Consult : </b> Nephrologists</div>
+              <div class="back container"><h4 class="card-title">Symtoms</h4> 1. Decrease urine output <br> 2. Fluid retention<br> 3. Shortness of breadth <br> 4. Fatigue <br> 5. Nausea <br> 6. Weakness</div>
         </div>
       </div>
      
@@ -349,7 +381,7 @@
   <!--/.Slides-->
 
 </div>
-
+</div>
 
 
 
@@ -359,11 +391,43 @@
 
 
 <br>
-<div class ="row">
-  <div class="col-md-3 col-6"style="padding-left: 7%"><div style="padding-left: 18%"><div class="circle" style="padding-left: 2"><i class="fas fa-check" style="font-size:30px;"></i></div></div><b>Make an appointment</b></div>
-  <div class="col-md-3 col-6" style="padding-left: 5%"> <div style="padding-left: 18%"><div class="circle"><i class="fas fa-list-alt" style="font-size:30px;"></i></div></div><b>Choose your package</b></div>
-  <div class="col-md-3 col-6"style="padding-left: 5%"><div style="padding-left: 18%"> <div class="circle"><i class="fas fa-user-md" style="font-size:30px;"></i></div></div><b>Help by specialist</b></div>
-  <div class="col-md-3 col-6" style="padding-left: 3%"><div style="padding-left: 18%"><div class="circle"><i class="fas fa-notes-medical" style="font-size:30px;"></i></div></div><b>Get diagnostic report</b></div>
+<footer style="background-color: #383838; width:100%; min-height: 210px;">
+    <div class="row">
+      <div class="col-md-5 col-12" style="color: white;">
+        <h4 class="ml-5 mt-4"> Connect with us</h4>
+        <center>
+        <div class="row ">
+        <a href="#" class="fa fa-facebook ml-5 mr-2" style="padding :10px; font-size: 20px; width: 40px; height: 40px;"></a>
+        <a href="#" class="fa fa-twitter mr-2" style="padding :10px; font-size: 20px; width: 40px; height: 40px;"></a>
+         <a href="#" class="fa fa-github mr-2" style="padding :10px; font-size: 20px; width: 40px; height: 40px;"></a>
+        <a href="#" class="fa fa-instagram mr-2" style="padding :10px; font-size: 20px; width: 40px; height: 40px;"></a>
+         <a href="#" class="fa fa-linkedin" style="padding :10px; font-size: 20px; width: 40px; height: 40px;"></a>
+       </div>
+      </div>
+
+      <div class="col-md-7 col-12">
+        <br>
+        <div class="row">
+        <div class="circle ml-4" style="text-align: center;  background: #484848;color:white; "><i class="fa fa-map-marker"></i> </div>
+        <div class="col-md-6 mt-0 col-8">
+        <div class="ml-2 col" style="color:white;">209 Budhwara market suraksha colony</div>
+          <div class="ml-1 col" style="color:white;"><b>Nepanagar,India</b></div></div>
+      </div>
+        <div class="row">
+        <div class="circle mt-2 ml-4 " style="text-align: center;  background: #484848;color:white; "><i class="fa fa-phone"></i></div>
+        <div class="ml-3 mt-3 col-8" style="color: white;"><b>+91 9479609031</b></div>
+      </div>
+      <div class="row">
+       <div class="circle mt-2 ml-4" style="text-align: center;  background: #484848;color:white; "> <i class="fa fa-envelope"></i></div><div class="ml-3 mt-3 col-8 " ><b style="color:#8c8cd9
+; ">rj03012002@gmail.com</b></div></div>
+
+
+      </div>
+    </div>
+
+
+</footer>
+
 
 
  
