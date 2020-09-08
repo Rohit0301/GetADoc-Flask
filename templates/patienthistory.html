@@ -4,26 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="loginstyle.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
+    <div class="row" style="background: antiquewhite; max-width:1230px;">
+       <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
+       <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
+ </div>
+
+ <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: grey;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item ">
+        <a class="nav-link" href="{{url_for('home',id=pid)}}" style="color: white;">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('about',id=pid)}}" style="color: white;">About</a>
+      </li>
+      
+        </ul>
+    </div>
+</nav>
+
+{% set count = namespace(value=0) %}
 
     <h1>Notifications</h1>
     {% for li in lis %}
        {% if li.status=="appointed"%}
       <div class="alert alert-success">
-          Dr {{li.docname}} gave you an appointment Date : {{li.appointmentdate}} ,time {{li.appointmenttime}}
-          Contact: {{li.contact}}, Address: {{li.address}}
-      </div>
-      {% endif %}
-       {% if li.status=="cancelled"%}
-      <div class="alert alert-danger">
-          Dr {{li.docname}} cancelled your appointment
-      </div>
-      {% endif %}   
+        <div class="row">
+         <h4> Your Appointment is Confirmed</h4>
+ <button class="btn btn-primary ml-3" type="button" data-toggle="collapse" data-target="#div{{count.value}}" aria-expanded="false" aria-controls="div{{count.value}}">
+    View More
+  </button>
+</div>
 
+<div class="collapse" id="div{{count.value}}">
+     <b>Doctor's Name :</b> {{li.docname}}<br>
+     <b> Appointment Date :</b> {{li.appointmentdate}}<br>
+     <b> Appointment Time :</b> {{li.appointmenttime}}<br>
+     <b> Address :</b> {{li.address}}<br>
+     <b> Phone No :</b> {{li.contact}}
+
+</div>
+
+</div>      
+{% endif %}
+
+{% if li.status=="cancelled"%}
+      <div class="alert alert-danger">
+        <div class="row">
+         <h4> Your Appointment is Cancelled</h4>
+ <button class="btn btn-primary ml-3" type="button" data-toggle="collapse" data-target="#div{{count.value}}" aria-expanded="false" aria-controls="div{{count.value}}">
+    View More
+  </button>
+</div>
+
+<div class="collapse" id="div{{count.value}}">
+     <b>Doctor's Name :</b> {{li.docname}}<br>
+     <b> Appointment Date :</b> ---<br>
+     <b> Appointment Time :</b> ---<br>
+     <b> Address :</b> {{li.address}}<br>
+     <b> Phone No :</b> {{li.contact}}
+
+</div>
+
+</div>      
+{% endif %}
+
+{% if li.status=="pending"%}
+      <div class="alert alert-warning">
+        <div class="row">
+         <h4> Your Appointment is Still Pending</h4>
+ <button class="btn btn-primary ml-3" type="button" data-toggle="collapse" data-target="#div{{count.value}}" aria-expanded="false" aria-controls="div{{count.value}}">
+    View More
+  </button>
+</div>
+
+<div class="collapse" id="div{{count.value}}">
+     <b>Doctor's Name :</b> {{li.docname}}<br>
+     <b> Appointment Date :</b> ---<br>
+     <b> Appointment Time :</b> ---<br>
+     <b> Address :</b> {{li.address}}<br>
+     <b> Phone No :</b> {{li.contact}}
+
+</div>
+
+</div>      
+{% endif %}
+{% set count.value = count.value + 1 %}
     {% endfor%}
 </body>
 </html>

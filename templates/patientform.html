@@ -13,18 +13,42 @@
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
+<div class="row" style="background: antiquewhite; max-width:1230px;">
+       <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
+       <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
+ </div>
 
-      {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-   {% endif %}
-   {% endwith %}
-<div class="container "  style="padding-top: 6%;">
+ <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: grey;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item ">
+        <a class="nav-link" href="{{url_for('home',id=pid)}}" style="color: white;">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('about',id=pid)}}" style="color: white;">About</a>
+      </li>
+      
+        </ul>
+    </div>
+</nav>
+
+      
+<div class="container mb-5"  style="padding-top: 3%;">
     <div class="card bg-light mx-auto" style="max-width: 800px;">
             <article class="card-body mx-auto" style="max-width:400px;">
     <form action="" method="post" class="form-group">
+        {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <span style="color: red;">{{ message }}</span>
+    {% endfor %}
+   {% endif %}
+   {% endwith %}
         {{ form.hidden_tag() }}
         <h3 class="card-title mt-3 text-center">Patient's Form</h3>
         <hr>
@@ -60,6 +84,19 @@
         </p>
 
     </div>
+    <br>
+
+    <p>
+        <div class="row">
+        <div class="mr-3 ml-3">
+        {{form.gender.label}} : </div> 
+        {% for sub in form.gender %}
+        <div class="mr-2">
+        {{sub}} {{sub.label}}
+    </div>
+        {% endfor %}
+        </div>
+    </p>
     <br>
            <div class="row">
            <div class="col-md-5"> Choose any one Options : </div>

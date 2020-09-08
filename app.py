@@ -72,7 +72,7 @@ class PatientDetails(UserMixin,db.Model):
     pid=db.Column(db.Integer,nullable=False)
     status=db.Column(db.String(20),nullable=False)
     reason=db.Column(db.String(50),nullable=True)
-
+    gender = db.Column(db.String(10),nullable=False)
 
 
 
@@ -95,9 +95,9 @@ def home(id):
     return render_template('home.html',id=id)
 
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/about/<int:id>')
+def about(id):
+    return render_template('about.html',id=id)
 
 
 
@@ -109,11 +109,11 @@ def patienthistory(pid):
     for p in patient:
         d=DoctorDetails.query.filter_by(id=p.docid).first()
         if d is not None:
-            lis.append({"doid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address,"status":p.status,"appointmentdate":p.appointmentdate,"appointmenttime":str(p.appointmenttime)})
+            lis.append({"docid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address,"status":p.status,"appointmentdate":p.appointmentdate,"appointmenttime":str(p.appointmenttime)})
     lis.reverse()    
 
     
-    return render_template('patienthistory.html',patient=patient,lis=lis)
+    return render_template('patienthistory.html',patient=patient,lis=lis,pid=pid)
 
 
 
@@ -122,8 +122,8 @@ def patienthistory(pid):
 
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/register/<int:id>', methods=['GET', 'POST'])
+def register(id):
     form=RegistrationForm()
     if form.validate_on_submit():
         reg = Register.query.filter_by(email=form.email.data).first()          
@@ -140,7 +140,7 @@ def register():
             return redirect(url_for('searchdoctor',pid=reg.id))
             
 
-    return render_template('register.html',form=form)
+    return render_template('register.html',form=form,id=id)
 
 
 @app.route('/login/<int:id>',methods=['GET', 'POST'])
@@ -158,19 +158,6 @@ def login(id):
             return redirect(url_for('login',id=id))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('home',id=user.id))
-        #if type=="Patient":
-         #   return redirect(url_for('searchdoctor',pid= user.id))
-        #else:
-            
-           # appoints=PatientDetails.query.filter_by(docid=user.id,status="pending").all()
-            #if len(appoints)==0:
-             #   flash('no pending appointments yet')
-              #  return redirect(url_for('doctorpage',id=user.id))
-
-            #else:
-             #   no=len(appoints)
-              #  flash('{} appointments are pending'.format(no))
-               # return redirect(url_for('doctorpage',id=user.id))
 
     
     return render_template('login.html',form=form,id=id)
@@ -201,7 +188,7 @@ def doctorpage(id):
     form=Appointments()
     appoints=PatientDetails.query.filter_by(docid=id).all()
     s=len(appoints)    
-    return render_template('doctorpage.html',appoints=appoints,form=form,s=s)
+    return render_template('doctorpage.html',appoints=appoints,form=form,s=s,id=id)
 
 
 
@@ -225,50 +212,72 @@ def confirmappointment(id,pid):
 
         #patient=PatientDetails.query.filter_by(docid=id,status="pending",pid=pid).update({status:"appointed"})
        # return redirect(url_for('home'))
-    return render_template('confirmappointment.html',appoints=appoints,form=form)
+    return render_template('confirmappointment.html',appoints=appoints,form=form,id=id)
 ####################################################################################################################
 
 
-@app.route('/choice')
-def choice():
-    return render_template('choice.html')
+@app.route('/choice/<int:id>')
+def choice(id):
+    return render_template('choice.html',id=id)
 
 
 @app.route('/searchdoctor/<int:pid>',methods=['GET','POST'])
 def searchdoctor(pid):
     form=SearchForm()
-    doctor = DoctorDetails.query.filter_by(city=form.city.data).all()
-    if doctor is None:
-        flash('No doctor present in this city')
-    else:   
-       return render_template('searchdoctor.html',doctor=doctor,form=form,pid=pid)
+    doctor=None
+    i=-1
+    if form.validate_on_submit():
+          doctor = DoctorDetails.query.filter_by(city=form.city.data).all()
+          i=len(doctor) 
+    return render_template('searchdoctor.html',doctor=doctor,form=form,pid=pid,i=i)
 
 
-@app.route('/doctorform',methods=['GET','POST'])
-def doctorform():
+@app.route('/doctorform/<int:id>',methods=['GET','POST'])
+def doctorform(id):
     form=DoctorForm()
+    fl=0
+    form.home_charges.data=0
+    form.clinic_charges.data=0    
+
+    
     if form.validate_on_submit():
         home_visit_available=0
         specialisation=""
-        if form.home_visit.data:
-            home_visit_available=1
-        if form.other.data:
-               specialisation=form.specialisation.data
+        if request.form.get('Other'):
+            if form.doctortype.data=="Select Specialisation":
+                flash('Please Enter your Specialisation')
+                return redirect(url_for('doctorform',id=id))
+            else:
+               specialisation=form.doctortype.data
         else:
-            specialisation=form.doctortype.data
+            if form.specialisation.data==None:
+                flash('Please select any Specialisation')
+                return redirect(url_for('doctorform',id=id))
+            else:
+               specialisation=form.specialisation.data
 
+
+        if request.form.get('Home_visit')==False:
+            flash('Please Enter Home Visit Charge')
+            return redirect(url_for('doctorform',id=id))
+        else:
+            home_visit_available=1
+        
+        
         reg = DoctorDetails.query.filter_by(email=form.email.data).first()          
-        if reg is not None:                             #this if checks that the user is already registered or not
+        if reg is not None:                             #this if checks that the user is already registered or 
             flash('user already registered!')
+            return redirect(url_for('doctorform',id=id))
         else:                                           
             password=generate_password_hash(form.password.data)
             id1 = db.session.query(db.func.max(DoctorDetails.id)).scalar()   
             doctor=DoctorDetails(id=id1+2,fullname=form.fullname.data,email=form.email.data,password=password,city=form.city.data,qualifications=form.qualifications.data,contact=form.contact.data,doctortype=specialisation,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
             db.session.add(doctor)
             db.session.commit()
+        doc = DoctorDetails.query.filter_by(email=form.email.data).first()
         flash('Congratulations, your data submitted successfully!')
-        return redirect(url_for('doctorpage',id=reg.id))
-    return render_template('doctor.html',form=form)
+        return redirect(url_for('home',id=doc.id))
+    return render_template('doctor.html',form=form,id=id,fl=fl)
 
 
 
@@ -284,7 +293,7 @@ def patientform(id,pid):
             if a.pid==pid and a.status=="pending":
                  flash('you appointment is already under process')     
                  return redirect(url_for('searchdoctor',pid=pid))
-        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending",reason="none")
+        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending",reason="none",gender=form.gender.data)
         db.session.add(patient)
         db.session.commit()
         flash('you form is submitted successfully. Please check your notification for your appointment date and time!')
@@ -301,7 +310,7 @@ def patientform(id,pid):
        # s.quit() 
 
 
-    return render_template('patientform.html',form=form,visit=visit)
+    return render_template('patientform.html',form=form,visit=visit,pid=pid)
 
 
 if __name__ == '__main__':

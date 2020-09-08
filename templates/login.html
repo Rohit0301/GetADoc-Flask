@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="loginstyle.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 
     <title>GetADoc - Book a Doctor</title>
     <style>
@@ -24,22 +24,48 @@
     </style>
 </head>
 <body>
+   <div class="row" style="background: antiquewhite; max-width:1230px;">
+       <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
+       <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
+ </div>
+
+
+
+ <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: grey;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item ">
+        <a class="nav-link" href="{{url_for('home',id=id)}}" style="color: white;">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('about',id=id)}}" style="color: white;">About</a>
+      </li>
+      
+        </ul>
+    </div>
+</nav>
+
     
-    {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-   {% endif %}
-   {% endwith %}
+    
    <center>
-<div class="container" style="padding-top: 4%;">
-    <div class="card bg-light mx-auto" style="max-width: 500px;">
+<div class="container" style="padding-top: 2%;">
+    <div class="card bg-light mx-auto mb-3" style="max-width: 500px;">
             <article class="card-body mx-auto" style="max-width:500px;">
     <form action="" method="post" class="form-group ">
         {{ form.hidden_tag() }}
         
-         
+         {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+     <span style="color: red"> {{ message }}</span>
+    {% endfor %}
+   {% endif %}
+   {% endwith %}
        <!-- <div class="col-md-4 col-sm-6 form">-->
             <h2 style="color:blue;">Choose Account Type</h2>
          <div>
@@ -67,15 +93,15 @@
             
                 </div>
     <div class="col-md-5  col">
-<div class="card " style="width:80px;border-radius: 50%; margin-right: 30px;">
-  <img class="card-img-top" src="{{url_for('static',filename='img/log2.jpeg')}}" alt="Card image" style="border-radius: 50%;">
+<div class="card " style="width:80px;">
+  <img class="card-img-top" src="{{url_for('static',filename='img/log2.jpeg')}}" alt="Card image" >
   </div>
                 
 </div>
 
 <div class="col-md-5 col">
-<div class="card" style="width:80px ;border-radius: 50%; margin-left: 20px;">
-  <img class="card-img-top" src="{{url_for('static',filename='img/log1.jpeg')}}" alt="Card image" style="border-radius: 50%;">
+<div class="card" style="width:80px ;">
+  <img class="card-img-top" src="{{url_for('static',filename='img/log1.jpeg')}}" alt="Card image">
   </div>
 </div>
 </div>
@@ -94,19 +120,15 @@
         </p>
     </div>
   <div>
-        <p>
 
             {{ form.password(size=32,class="form-control") }}<br>
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
     </div>
     
-     <div class="form-check">
-        <p>
-            {{form.remember_me(class="form-check-input filled-in")}} {{form.remember_me.label}}
-        </p>
+     <div class="form-check mb-4 mt-0">
+           <span style="padding-right: 60%;"> {{form.remember_me(class="form-check-input filled-in")}} {{form.remember_me.label}}</span>
     </div>
     <div class="row ">
     <div class="col-md-6 col">

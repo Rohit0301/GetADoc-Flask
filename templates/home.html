@@ -31,7 +31,7 @@
     color:#fff;
     line-height:50px;
     text-align:center;
-    background:aqua
+    background:#00ccff
 }
 
 .hide {
@@ -99,10 +99,14 @@
 
 
 <body>
+<header>
+    <div class="row" style="background: antiquewhite; max-width:1230px;">
+       <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
+       <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
+ </div>
+    
 
-<div style="text-align: center;"> <h1>GetADoc</h1></div>
-
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: grey;">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: grey;">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -111,10 +115,10 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="{{url_for('home',id=id)}}" style="color: white;">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{url_for('home',id=id)}}" style="color: white;"><b>Home</b> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{url_for('about')}}" style="color: white;">About</a>
+        <a class="nav-link" href="{{url_for('about',id=id)}}" style="color: white;">About</a>
       </li>
       
          {% if id!=0 %}
@@ -138,16 +142,17 @@
       <a  href="{{url_for('login',id=id)}}"><button type="button" class="btn btn-primary my-2 my-sm-0">Login</button></a></li>
                 
       <li class="nav-item mr-1">
-      <a  href="/choice"><button type="button" class="btn btn-success my-2 my-sm-0">SignUp</button></a></li>
+      <a  href="{{url_for('choice',id=id)}}"><button type="button" class="btn btn-success my-2 my-sm-0">SignUp</button></a></li>
      {% else %}
      <li class="nav-item">
      <a  href="/logout"><button type="button" class="btn btn-secondary my-2 my-sm-0">Logout</button></a></li>
      {% endif %}
     </form>
+  </ul>
   </div>
 </nav>
 
-
+</header>
 
   <!--<nav class="navbar navbar-expand-sm bg-light col">-->
     
@@ -157,10 +162,13 @@
 <body>
     <!--{% if current_user.is_authenticated %}-->
     <!--{% endif %}-->
+  
     {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
-     {{ message }}
+   <div class="alert alert-success"> <span style="color: green;"> {{ message }}</span></div>
+     
+
     {% endfor %}
   {% endif %}
 {% endwith %}
@@ -177,13 +185,13 @@
   <!-- The slideshow -->
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="static/img/c.jpg" alt="Image" >
+      <img src="static/img/c2.png" alt="Image" >
     </div>
     <div class="carousel-item">
       <img src="static/img/b.jpg" alt="Image">
     </div>
     <div class="carousel-item">
-      <img src="static/img/doctor2.jpeg" alt="Image">
+      <img src="static/img/c3.png" alt="Image">
     </div>
   </div>
 
@@ -204,7 +212,7 @@
 <div class ="row">
   <div class="col-md-4 ">
   
-      <div class="circle ml-2"><i class="fas fa-check" style="font-size:30px;"></i>
+      <div class="circle ml-3"><i class="fas fa-check" style="font-size:30px;"></i>
       </div>
       <b><h5>Make an appointment</h5></b>
     </div>
@@ -215,7 +223,7 @@
 
 </div>
   <div class="col-md-4 ">
-    <div class="circle ml-2"><i class="fas fa-notes-medical" style="font-size:30px;"></i>
+    <div class="circle ml-3"><i class="fas fa-notes-medical" style="font-size:30px;"></i>
     </div>
    <b><h5>Get diagnostic report</h5></b>
  </div>

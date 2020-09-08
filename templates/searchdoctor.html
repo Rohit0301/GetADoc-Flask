@@ -41,20 +41,45 @@
     </style>
 </head>
 <body>
-    <h1>search the doctor</h1>
-     
-        <li><a href="/logout">Logout <span class="sr-only"></span></a></li>
-    {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-   {% endif %}
-   {% endwith %}
-   
+    <div class="row" style="background: antiquewhite; max-width:1244px;">
+       <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
+       <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
+ </div>
+     <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: grey;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item ">
+        <a class="nav-link" href="{{url_for('home',id=pid)}}" style="color: white;">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('about',id=pid)}}" style="color: white;">About</a>
+      </li>
+      
+        </ul>
+        <form class="form-inline my-0  my-lg-0">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+     <li class="nav-item">
+     <a  href="/logout"><button type="button" class="btn btn-secondary my-2 my-sm-0">Logout</button></a></li>
+    </form>
+    </div>
+</nav>
+
+        
 
 
     <form action="" method="post">
+       {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+   <div class="alert alert-danger"> <span style="color: red; padding-left: 40%;">  {{ message }}</span></div>
+    {% endfor %}
+   {% endif %}
+   {% endwith %}
         {{ form.hidden_tag() }}
         <div class="main">
         <div class="input-group">
@@ -70,9 +95,12 @@
   </div>
   </div>
    </form>
+   {% if i==-1%}
+   {% elif i==0 %}
+    <span style="color: red; text-align: center;"><h3>No doctor is available in this city</h3></span>
+   {% else %}
 
-
-<br>
+  <div class="" style="color: green; text-align: center;">{{i}} results found</div>
 <br>
    {% for d in doctor%}
    <div class="container-fluid row " style="background-color: bisque;">
@@ -107,11 +135,12 @@
          <div class="col-mid-2 col">
           <br>
           <br>
-       <a href="{{url_for('patientform',id=d.id,pid=pid)}}"> <button type="submit" class="btn btn-outline-success" btn-block">Book appointment</button></a>
+       <a href="{{url_for('patientform',id=d.id,pid=pid)}}"> <button type="submit" class="btn btn-outline-success ">Book appointment</button></a>
        </div>
    </div>
    <br>
    {% endfor %}
+   {% endif %}
 
 </body>
 </html>

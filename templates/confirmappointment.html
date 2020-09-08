@@ -15,19 +15,48 @@
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-   {% endif %}
-   {% endwith %}
+ <div class="row" style="background: antiquewhite; max-width:1230px;">
+       <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
+       <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
+ </div>
+
+ <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: grey;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item ">
+        <a class="nav-link" href="{{url_for('home',id=id)}}" style="color: white;">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('about',id=id)}}" style="color: white;">About</a>
+      </li>
+      
+        </ul>
+        <form class="form-inline my-0  my-lg-0">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+     <li class="nav-item">
+     <a  href="/logout"><button type="button" class="btn btn-secondary my-2 my-sm-0">Logout</button></a></li>
+    </form>
+    </div>
+    </div>
+</nav>
 
 
 
 <div class="container-sm container-md "  style="padding-top: 6%;">
     <div class="card bg-light mx-auto" style="max-width: 800px;">
             <article class="card-body mx-auto" style="max-width:400px;">
+
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+   <span style="color: red; text-align: center;">{{ message }}</span>
+    {% endfor %}
+   {% endif %}
+   {% endwith %}
+
         <h2 class="card-title mt-3 text-center">Confirm Appointment</h2>
         <hr>
            <h4>FullName: {{appoints.fullname}}</h4>

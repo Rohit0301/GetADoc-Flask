@@ -4,10 +4,10 @@ from wtforms.widgets import TextArea
 from wtforms.fields.html5 import DateField,TimeField,DateTimeLocalField
 
 class RegistrationForm(FlaskForm):
-	username=StringField('Username',[validators.DataRequired(),validators.Length(min=3,max=50)],render_kw={"placeholder": "Username"})
+	username=StringField('Username',[validators.DataRequired(),validators.Length(min=3,max=50)],render_kw={"placeholder": "Fullname"})
 	email=StringField('Email',[validators.DataRequired(),validators.Email()],render_kw={"placeholder": "Email"})
 	password=PasswordField('Password',[validators.DataRequired(),validators.Length(min=8,max=30)],render_kw={"placeholder": "Password"})
-	confirmpassword=PasswordField('Confirm Password',[validators.DataRequired(),validators.EqualTo('password')],render_kw={"placeholder": "Confirm Password"})
+	confirmpassword=PasswordField('Confirm Password',[validators.DataRequired(),validators.EqualTo('password','Password must be equal')],render_kw={"placeholder": "Confirm Password"})
 	submit=SubmitField('Sign Up')
 
     
@@ -24,7 +24,7 @@ class DoctorForm(FlaskForm):
     fullname=StringField('FullName',[validators.DataRequired()],render_kw={"placeholder": "Fullname"})
     email=StringField('Email',[validators.DataRequired(),validators.Email()],render_kw={"placeholder": "Email"})
     password=PasswordField('Password',[validators.DataRequired(),validators.Length(min=8,max=30)],render_kw={"placeholder": "Password"})
-    confirmpassword=PasswordField('Confirm Password',[validators.DataRequired(),validators.EqualTo('password')],render_kw={"placeholder": "Confirm Password"})
+    confirmpassword=PasswordField('Confirm Password',[validators.DataRequired(),validators.EqualTo('password','Password must be equal')],render_kw={"placeholder": "Confirm Password"})
     city=StringField('City',[validators.DataRequired()],render_kw={"placeholder": "City"})
     qualifications=StringField('Qualifications',[validators.DataRequired()],render_kw={"placeholder": "Qualifications ex: MBBS,BHMS"})
     contact=StringField('Contact',[validators.DataRequired()],render_kw={"placeholder": "Contact"})
@@ -35,13 +35,13 @@ class DoctorForm(FlaskForm):
     home_visit=BooleanField('Home visit available')
     other=BooleanField('Other')
     specialisation=StringField('Enter your Specialisation',render_kw={"placeholder": "Specialisation"})
-    home_charges=IntegerField('Home charges',render_kw={"placeholder": "Clinic charge"})
-    clinic_charges=IntegerField('Clinic charges',render_kw={"placeholder": "Home visit charge"})
+    home_charges=IntegerField('Home charges',render_kw={"placeholder": "Home visit charge"})
+    clinic_charges=IntegerField('Clinic charges',render_kw={"placeholder": "Clinic charge"})
 
     submit=SubmitField('Submit Details')
 
 class SearchForm(FlaskForm):
-	city=StringField('City',[validators.DataRequired()])
+	city=StringField('City',[validators.DataRequired()],render_kw={"placeholder": "Enter Your City"})
 	search=SubmitField('Search Doctor')
 
 
@@ -53,6 +53,7 @@ class PatientForm(FlaskForm):
     myChoices=[('Year','Year'),('Month','Month')]
     type= SelectField(u'Type', choices = myChoices,default=1)
     choice=RadioField('Choose preference',choices=[('Home Visit','Home Visit'),('Clinic','Clinic')])
+    gender=RadioField('Gender',choices=[('Male','Male'),('Female','Female')])
     submit=SubmitField('Submit Details')
 
 

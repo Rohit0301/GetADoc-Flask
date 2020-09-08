@@ -15,17 +15,39 @@
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-  {% if messages %}
+    <div class="row" style="background: antiquewhite; max-width:1230px;">
+       <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
+       <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
+ </div>
+ <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: grey;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item ">
+        <a class="nav-link" href="{{url_for('home',id=id)}}" style="color: white;">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('about',id=id)}}" style="color: white;">About</a>
+      </li>
+      
+        </ul>
+    </div>
+</nav>
+
+    
+ <div class="container">
+    <div class="card bg-light mx-auto mt-3 mb-3" style="max-width: 100%;">
+            <article class="card-body mx-auto" style="max-width:100%;">
+    <form action="" method="post">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
     {% for message in messages %}
-      {{ message }}
+     <span style="color: red;">{{ message }}</span>
     {% endfor %}
    {% endif %}
    {% endwith %}
- <div class="container">
-    <div class="card bg-light mx-auto" style="max-width: 100%;">
-            <article class="card-body mx-auto" style="max-width:100%;">
-    <form action="" method="post">
         {{ form.hidden_tag() }}
         <h4 class="card-title mt-3 text-center">Create Account</h4>
         <p class="text-center">Get started with your free account</p>
@@ -55,7 +77,7 @@
         </div>
         <p>
             {% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
         
@@ -70,7 +92,7 @@
         </div>
         <p>
             {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
         
@@ -86,7 +108,7 @@
         </div>
         <p>
             {% for error in form.confirmpassword.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
         
@@ -101,7 +123,7 @@
             </div>
             <p>
             {% for error in form.city.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
         
@@ -116,7 +138,7 @@
         </div>
         <p>
             {% for error in form.qualifications.errors %}
-            <span style="color: red;">[{{ error }}]</span>
+            <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
           
@@ -135,15 +157,16 @@
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
-
-          
         
                 <div class="col">
             {{ form.doctortype(class="form-control")}}
-        
+             </div>
+             {% if fl==1 %}
+         <span style="color: red;">Please select any specialisation</span>
+             {% endif %}
                    <br>
 
-  <input type='checkbox'  name="Other specialisation" value="Other specialisation" data-toggle='collapse' data-target='#collapsediv2'>Other Specialisation</input>
+  <input type='checkbox'  name="Other" value="Other" data-toggle='collapse' data-target='#collapsediv2'>Other Specialisation</input>
 
 <div id='collapsediv2' class='collapse div2'>
      <div class="home_visit selectt"> 
@@ -154,7 +177,7 @@
             {% if flag==1 %}
             <span style="color: red;">Please enter your specialisation</span>
             {% endif %}
-            {% for error in form.home_charges.errors %}
+            {% for error in form.specialisation.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
@@ -204,6 +227,8 @@
          <p>
             {{ form.home_charges.label }}
             {{ form.home_charges(size=15,class="form-control") }}<br>
+            {{visit}}
+
              {% if visit==1 %}
             <span style="color: red;">Please enter your Home visit charges</span>
             {% endif %}
