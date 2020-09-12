@@ -9,8 +9,6 @@ from datetime import datetime,date
 #from sqlalchemy.orm import relationship
 import smtplib
 
-import socket
-socket.getaddrinfo('localhost', 8080)
 
 
 
