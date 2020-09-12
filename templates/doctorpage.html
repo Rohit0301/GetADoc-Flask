@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="loginstyle.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  
     <title>GetADoc - Book a Doctor</title>
 </head>
 <body>
-  <div class="row " style="background: antiquewhite; max-width:1230px;">
+  <div class="row " style="background: antiquewhite; max-width:1244px;">
        <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
        <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
  </div>
@@ -60,7 +64,7 @@
 
         {% for a in appoints | reverse%}
 {% if a.status=="pending" %}
-   <div class="container-fluid row aler alert-warning mt-3 ml-md-4 ml-1" style="border-radius: 8px; max-width:1100px;">
+   <div class="container-fluid row aler alert-warning mt-2 ml-md-5 ml-1">
 
        <div class="col-md-3">
         <i class="fa fa-exclamation-triangle " style="font-size:60px;"></i>
@@ -81,14 +85,14 @@
        </div>
    </div>
 
-   <br>
    {% endif %}
    {% endfor %}
 
      {% for a in appoints | reverse %}
 {% if a.status=="appointed" %}
-   <div class="container-fluid row alert alert-success ml-md-4 ml-1" style="border-radius: 8px; max-width:1100px;">
-       <div class="col-md-3 ">
+   <div class="container-fluid row alert alert-success mt-2 ml-1 mr-1">
+       <div class="col-md-3">
+
         <i class="fa fa-check-square-o" style="font-size:60px;"></i>
            <h4>FullName: {{a.fullname}}</h4>
            <h4>Age: {{a.age}}</h4>
@@ -97,7 +101,6 @@
         <h4>Address: {{a.address}}</h4>
         </div>
         </div>
-   <br>
 
    {% endif %}
    {% endfor %}
@@ -106,7 +109,7 @@
 
      {% for a in appoints |reverse %}
 {% if a.status=="cancelled" %}
-   <div class="container-fluid row alert alert-danger ml-md-4 ml-1" style="border-radius: 8px; max-width:1100px;">
+   <div class="container-fluid row alert alert-danger mt-1 ml-md-4 ml-1">
        <div class="col-md-3 ">
         <i class="fa fa-times" style="font-size:60px;"></i>
            <h4>FullName: {{a.fullname}}</h4>

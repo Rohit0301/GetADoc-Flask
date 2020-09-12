@@ -73,7 +73,7 @@ class PatientDetails(UserMixin,db.Model):
     status=db.Column(db.String(20),nullable=False)
     reason=db.Column(db.String(50),nullable=True)
     gender = db.Column(db.String(10),nullable=False)
-
+    fees = db.Column(db.Integer, nullable=False)
 
 
 
@@ -109,7 +109,7 @@ def patienthistory(pid):
     for p in patient:
         d=DoctorDetails.query.filter_by(id=p.docid).first()
         if d is not None:
-            lis.append({"docid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address,"status":p.status,"appointmentdate":p.appointmentdate,"appointmenttime":str(p.appointmenttime)})
+            lis.append({"docid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address,"status":p.status,"fees":p.fees,"appointmentdate":p.appointmentdate,"appointmenttime":str(p.appointmenttime)})
     lis.reverse()    
 
     
@@ -286,14 +286,21 @@ def doctorform(id):
 def patientform(id,pid):
     form=PatientForm()
     reg = DoctorDetails.query.filter_by(id=id).first()
+    fees=0
     visit=reg.home_visit_available          
     if request.method=="POST":
+       
         appoint = PatientDetails.query.filter_by(docid=id).all()
         for a in appoint:
             if a.pid==pid and a.status=="pending":
-                 flash('you appointment is already under process')     
+                 flash('you appointment is already under process')    
                  return redirect(url_for('searchdoctor',pid=pid))
-        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending",reason="none",gender=form.gender.data)
+        choice=form.choice.data
+        if choice =='Clinic':
+            fees=reg.clinic_charge
+        else:
+            fees=reg.home_charge
+        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=choice,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending",reason="none",gender=form.gender.data,fees=fees)
         db.session.add(patient)
         db.session.commit()
         flash('you form is submitted successfully. Please check your notification for your appointment date and time!')

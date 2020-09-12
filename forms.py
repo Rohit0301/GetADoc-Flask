@@ -49,7 +49,7 @@ class PatientForm(FlaskForm):
     fullname=StringField("Patient's FullName",[validators.DataRequired()],render_kw={"placeholder": " Patient's FullName"})
     contact=StringField("Patient's Contact",[validators.DataRequired()],render_kw={"placeholder": "Patient's Phone No"})
     address = StringField("Patient's Address",[validators.Length(min=4)],widget=TextArea(),render_kw={"placeholder": "Patient's Address"})
-    age=IntegerField("Patients's Age",[validators.DataRequired()],render_kw={"placeholder": "Patient's Age"})
+    age=IntegerField("Patients's Age",[validators.DataRequired(),validators.Length(min=1)],render_kw={"placeholder": "Patient's Age"})
     myChoices=[('Year','Year'),('Month','Month')]
     type= SelectField(u'Type', choices = myChoices,default=1)
     choice=RadioField('Choose preference',choices=[('Home Visit','Home Visit'),('Clinic','Clinic')])
