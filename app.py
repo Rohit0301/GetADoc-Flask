@@ -9,15 +9,17 @@ from datetime import datetime,date
 #from sqlalchemy.orm import relationship
 import smtplib
 
-
+import json
+with open('config.json','r') as c:
+    params=json.load(c)["params"]
 
 
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY']='1299ed71343a314003fb6cc2df93fb2d'
+app.config['SECRET_KEY']=params["key"]
 #protect from modifing cookies and cross site requests
-app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/GetADoc'
+app.config['SQLALCHEMY_DATABASE_URI']=params["local_uri"]
 
 db=SQLAlchemy(app)
 login_manager=LoginManager()
@@ -48,9 +50,9 @@ class DoctorDetails(UserMixin,db.Model):
     contact = db.Column(db.String(80),nullable=False)
     doctortype = db.Column(db.String(80),nullable=False)
     address = db.Column(db.String(200),nullable=False)
-    clinic_charge = db.Column(db.Integer,nullable=False)
+    clinic_charge = db.Column(db.String(200),nullable=False)
     home_visit_available = db.Column(db.Integer,nullable=False,default=0)
-    home_charge = db.Column(db.String(80),nullable=False)
+    home_charge = db.Column(db.String(200),nullable=False)
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
@@ -71,7 +73,6 @@ class PatientDetails(UserMixin,db.Model):
     status=db.Column(db.String(20),nullable=False)
     reason=db.Column(db.String(50),nullable=True)
     gender = db.Column(db.String(10),nullable=False)
-    fees = db.Column(db.Integer, nullable=False)
 
 
 
@@ -90,7 +91,7 @@ def load_user(id):
 @app.route("/", defaults={'id':0})
 @app.route('//<int:id>')
 def home(id):
-    return render_template('home.html',id=id)
+    return render_template('home.html',id=id,params=params)
 
 
 @app.route('/about/<int:id>')
@@ -107,11 +108,11 @@ def patienthistory(pid):
     for p in patient:
         d=DoctorDetails.query.filter_by(id=p.docid).first()
         if d is not None:
-            lis.append({"docid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address,"status":p.status,"fees":p.fees,"appointmentdate":p.appointmentdate,"appointmenttime":str(p.appointmenttime)})
+            lis.append({"docid":d.id,"docname":d.fullname,"contact":d.contact,"address":d.address,"status":p.status,"appointmentdate":p.appointmentdate,"appointmenttime":str(p.appointmenttime)})
     lis.reverse()    
 
     
-    return render_template('patienthistory.html',patient=patient,lis=lis,pid=pid)
+    return render_template('patienthistory.html',patient=patient,lis=lis,pid=pid,l=len(lis))
 
 
 
@@ -130,12 +131,14 @@ def register(id):
         else:                                           
             password=generate_password_hash(form.password.data)      #this will produce a hashcode for any password for privacy
             id1 = db.session.query(db.func.max(Register.id)).scalar()
+            if id1==None:
+                id1=-1
             register = Register(id=id1+2,username=form.username.data, email=form.email.data,password=password)
             db.session.add(register)
             db.session.commit()
             reg = Register.query.filter_by(email=form.email.data).first()
             flash('Congratulations, you are registered successfully!')
-            return redirect(url_for('searchdoctor',pid=reg.id))
+            return redirect(url_for('home',id=reg.id))
             
 
     return render_template('register.html',form=form,id=id)
@@ -190,8 +193,6 @@ def doctorpage(id):
 
 
 
-
-##########################################################################################################################
 @app.route('/confirmappointment/<int:id>/<int:pid>',methods=['GET','POST'])
 def confirmappointment(id,pid):
     form=Appointments()
@@ -206,12 +207,8 @@ def confirmappointment(id,pid):
             db.session.commit()
            
             return redirect(url_for('doctorpage',id=id))
-        #return redirect(url_for('doctorpage',id=id))
 
-        #patient=PatientDetails.query.filter_by(docid=id,status="pending",pid=pid).update({status:"appointed"})
-       # return redirect(url_for('home'))
     return render_template('confirmappointment.html',appoints=appoints,form=form,id=id)
-####################################################################################################################
 
 
 @app.route('/choice/<int:id>')
@@ -234,10 +231,7 @@ def searchdoctor(pid):
 def doctorform(id):
     form=DoctorForm()
     fl=0
-    form.home_charges.data=0
-    form.clinic_charges.data=0    
-
-    
+      
     if form.validate_on_submit():
         home_visit_available=0
         specialisation=""
@@ -255,10 +249,7 @@ def doctorform(id):
                specialisation=form.specialisation.data
 
 
-        if request.form.get('Home_visit')==False:
-            flash('Please Enter Home Visit Charge')
-            return redirect(url_for('doctorform',id=id))
-        else:
+        if form.home_visit.data==True:
             home_visit_available=1
         
         
@@ -268,7 +259,9 @@ def doctorform(id):
             return redirect(url_for('doctorform',id=id))
         else:                                           
             password=generate_password_hash(form.password.data)
-            id1 = db.session.query(db.func.max(DoctorDetails.id)).scalar()   
+            id1 = db.session.query(db.func.max(DoctorDetails.id)).scalar()
+            if id1==None:
+                id1=0   
             doctor=DoctorDetails(id=id1+2,fullname=form.fullname.data,email=form.email.data,password=password,city=form.city.data,qualifications=form.qualifications.data,contact=form.contact.data,doctortype=specialisation,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
             db.session.add(doctor)
             db.session.commit()
@@ -293,12 +286,8 @@ def patientform(id,pid):
             if a.pid==pid and a.status=="pending":
                  flash('you appointment is already under process')    
                  return redirect(url_for('searchdoctor',pid=pid))
-        choice=form.choice.data
-        if choice =='Clinic':
-            fees=reg.clinic_charge
-        else:
-            fees=reg.home_charge
-        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=choice,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending",reason="none",gender=form.gender.data,fees=fees)
+        
+        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending",reason="none",gender=form.gender.data)
         db.session.add(patient)
         db.session.commit()
         flash('you form is submitted successfully. Please check your notification for your appointment date and time!')

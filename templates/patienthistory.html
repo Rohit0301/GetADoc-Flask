@@ -41,7 +41,7 @@
 
 {% set count = namespace(value=0) %}
 
-    <h1>Notifications</h1>
+    <h1>Notifications({{l}})</h1>
     {% for li in lis %}
        {% if li.status=="appointed"%}
       <div class="alert alert-success">
@@ -57,8 +57,7 @@
      <b> Appointment Date :</b> {{li.appointmentdate}}<br>
      <b> Appointment Time :</b> {{li.appointmenttime}}<br>
      <b> Address :</b> {{li.address}}<br>
-     <b> Phone No :</b> {{li.contact}}<br>
-     <b> Fees :</b> {{li.fees}}
+     <b> Phone No :</b> {{li.contact}}
 
 </div>
 
@@ -79,8 +78,7 @@
      <b> Appointment Date :</b> ---<br>
      <b> Appointment Time :</b> ---<br>
      <b> Address :</b> {{li.address}}<br>
-     <b> Phone No :</b> {{li.contact}}<br>
-     <b> Fees :</b> ---
+     <b> Phone No :</b> {{li.contact}}
 
 </div>
 
@@ -101,8 +99,7 @@
      <b> Appointment Date :</b> ---<br>
      <b> Appointment Time :</b> ---<br>
      <b> Address :</b> {{li.address}}<br>
-     <b> Phone No :</b> {{li.contact}}<br>
-     <b> Fees :</b> ---
+     <b> Phone No :</b> {{li.contact}}
 
 </div>
 

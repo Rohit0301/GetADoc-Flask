@@ -1,0 +1,13 @@
+{
+"params":{
+  "local_uri": "mysql://root:@localhost/GetADoc",
+  "prod_uri": "mysql://root:@localhost/GetADoc",
+  "key":"1299ed71343a314003fb6cc2df93fb2d",
+  "fb_uri": "https://www.facebook.com/profile.php?id=100011138533561",
+  "twt_uri": "https://twitter.com/RohitJa22390522",
+  "git_uri": "https://github.com/Rohit0301",
+  "li_uri": "https://www.linkedin.com/in/rohitjain0301/",
+  "ins_uri": "https://www.instagram.com/_r.o.h.i.t_j.a.i.n/"
+
+}
+}

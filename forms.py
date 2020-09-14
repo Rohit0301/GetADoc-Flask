@@ -35,8 +35,8 @@ class DoctorForm(FlaskForm):
     home_visit=BooleanField('Home visit available')
     other=BooleanField('Other')
     specialisation=StringField('Enter your Specialisation',render_kw={"placeholder": "Specialisation"})
-    home_charges=IntegerField('Home charges',render_kw={"placeholder": "Home visit charge"})
-    clinic_charges=IntegerField('Clinic charges',render_kw={"placeholder": "Clinic charge"})
+    home_charges=StringField('Home charges',render_kw={"placeholder": "Home visit charge"})
+    clinic_charges=StringField('Clinic charges',render_kw={"placeholder": "Clinic charge"})
 
     submit=SubmitField('Submit Details')
 

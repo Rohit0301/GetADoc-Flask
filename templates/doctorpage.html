@@ -59,9 +59,12 @@
     {% endfor %}
    {% endif %}
    {% endwith %}
-        
-
-
+        {% if s== 0%}
+ <center><span style="color: red"><h3>0 Result found</h3><span></center>
+   {% else %}
+   <center><span style="color: green"><h3>{{s}} Result found</h3><span></center>
+   {% endif %}
+<br>
         {% for a in appoints | reverse%}
 {% if a.status=="pending" %}
    <div class="container-fluid row aler alert-warning mt-2 ml-md-5 ml-1">
