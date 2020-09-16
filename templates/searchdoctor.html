@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutstyle.css') }}">-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/searchstyle.css') }}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -13,32 +13,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
   <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <title>GetADoc - Book a Doctor</title>
-    <style type="text/css">
-      .main {
-    width: 50%;
-    margin: 50px auto;
-}
 
-/* Bootstrap 4 text input with search icon */
-
-.has-search .form-control {
-    padding-left: 2.375rem;
-}
-
-.has-search .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: #aaa;
-}
-     
-
-    </style>
 </head>
 <body>
     <div class="row" style="background: antiquewhite; max-width:1244px;">
@@ -124,7 +99,7 @@
           <br>
         <h3><span style="color: chocolate;">Charges</span></h3>
         <h5><b>Clinic Charges : </b></h5><h6>{{d.clinic_charge}}</h6>
-        {% if d.home_visit_available==1 %}
+        {% if d.home_visit_available=='1' %}
         <span style="color: green;"><i class="fa fa-check" style="font-size:20px;"></i> Home visit available</span>
         <h5>Home visit Charges : </h5><h6>{{d.home_charge}}</h6>
         {% else %}

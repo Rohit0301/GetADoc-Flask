@@ -96,7 +96,7 @@ def home(id):
 
 @app.route('/about/<int:id>')
 def about(id):
-    return render_template('about.html',id=id)
+    return render_template('about.html',id=id,params=params)
 
 
 

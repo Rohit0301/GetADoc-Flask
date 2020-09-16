@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">-->
- <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">-->
-
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+ 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,85 +15,7 @@
   <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <style>
-  /* Make the image fully responsive */
-  .carousel-inner img {
-    width: 100%;
-    height: 300px;
-  }
-
- .circle{
-    width:50px;
-    height:50px;
-    border-radius:50px;
-    font-size:20px;
-    color:#fff;
-    line-height:50px;
-    text-align:center;
-    background:#00ccff
-}
-
-.hide {
-  display: none;
-}
-
-.mydiv:hover + .hide { 
-
- display: block;
- 
-}
-.card-container {
-      display: grid;
-    perspective: 200;
-}
-
-.card-flip, .card-container {
-    transform-style: preserve-3d;
-    transition: all 0.7s ease;
-}
-
-.card-flip div {
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-}
-
-.back {
   
-    transform: rotateY(-180deg);
-}
-
-.card-container:hover .card-flip {
-    transform: rotateY(180deg);
-}
-.card-flip {
-    display: grid; grid-template: 1fr / 1fr;
-    grid-template-areas: "frontAndBack";
-    transform-style: preserve-3d;
-    transition: all 0.7s ease;
-}
-
-.front {
-    grid-area: frontAndBack;
-}
-
-.back {
-    grid-area: frontAndBack;
-    transform: rotateY(-180deg);
-}
-
-.fa {
-  
-  text-align: center;
-  background: #484848;
-  color:white;
-}
-.footer{
-  padding-left: 10px;
-  padding-right: 10px;
-}
- 
-
-  </style>
  
 
 
@@ -185,13 +106,13 @@
   <!-- The slideshow -->
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="static/img/c2.png" alt="Image" >
+      <img src="{{url_for('static',filename='img/c2.png')}}" alt="Image" >
     </div>
     <div class="carousel-item">
-      <img src="static/img/b.jpg" alt="Image">
+      <img src="{{url_for('static',filename='img/home2.png')}}" alt="Image">
     </div>
     <div class="carousel-item">
-      <img src="static/img/c3.png" alt="Image">
+      <img src="{{url_for('static',filename='img/c3.png')}}" alt="Image">
     </div>
   </div>
 

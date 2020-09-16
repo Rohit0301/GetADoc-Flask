@@ -1,6 +1,75 @@
+.carousel-inner img {
+    width: 100%;
+    height: 300px;
+  }
 
-
-h1{
-    text-align: center;
-    color: crimson;
+ .circle{
+    width:50px;
+    height:50px;
+    border-radius:50px;
+    font-size:20px;
+    color:#fff;
+    line-height:50px;
+    text-align:center;
+    background:#00ccff
 }
+
+.hide {
+  display: none;
+}
+
+.mydiv:hover + .hide { 
+
+ display: block;
+ 
+}
+.card-container {
+      display: grid;
+    perspective: 200;
+}
+
+.card-flip, .card-container {
+    transform-style: preserve-3d;
+    transition: all 0.7s ease;
+}
+
+.card-flip div {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.back {
+  
+    transform: rotateY(-180deg);
+}
+
+.card-container:hover .card-flip {
+    transform: rotateY(180deg);
+}
+.card-flip {
+    display: grid; grid-template: 1fr / 1fr;
+    grid-template-areas: "frontAndBack";
+    transform-style: preserve-3d;
+    transition: all 0.7s ease;
+}
+
+.front {
+    grid-area: frontAndBack;
+}
+
+.back {
+    grid-area: frontAndBack;
+    transform: rotateY(-180deg);
+}
+
+.fa {
+  
+  text-align: center;
+  background: #484848;
+  color:white;
+}
+.footer{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+ 
