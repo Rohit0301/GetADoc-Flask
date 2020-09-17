@@ -5,9 +5,6 @@ from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm,A
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
 from datetime import datetime,date
-#from SQLAlchemy import ForeignKey
-#from sqlalchemy.orm import relationship
-import smtplib
 
 import json
 with open('config.json','r') as c:
@@ -31,7 +28,7 @@ s = smtplib.SMTP('smtp.gmail.com', 587)
 s.starttls() 
 
 
-
+# table which store patients login details
 class Register(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80),nullable=False,)
@@ -88,19 +85,20 @@ def load_user(id):
     else:
          return Register.query.get(int(id))
 
+#home page route
 @app.route("/", defaults={'id':0})
 @app.route('//<int:id>')
 def home(id):
     return render_template('home.html',id=id,params=params)
 
-
+#about page route
 @app.route('/about/<int:id>')
 def about(id):
     return render_template('about.html',id=id,params=params)
 
 
 
-
+# patients all appointment history is being seen from this route 
 @app.route('/patienthistory/<int:pid>')
 def patienthistory(pid):
     patient=PatientDetails.query.filter_by(pid=pid).all()
@@ -120,7 +118,7 @@ def patienthistory(pid):
 
 
 
-
+# patiendts sign up route
 @app.route('/register/<int:id>', methods=['GET', 'POST'])
 def register(id):
     form=RegistrationForm()
@@ -144,6 +142,7 @@ def register(id):
     return render_template('register.html',form=form,id=id)
 
 
+#login route for both atient and doctor
 @app.route('/login/<int:id>',methods=['GET', 'POST'])
 def login(id):
     form = LoginForm()
@@ -163,13 +162,14 @@ def login(id):
     
     return render_template('login.html',form=form,id=id)
 
-
+#logout route
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
 
+#this is a route for giving the reason why doctor cancelled his/ her appointment
 @app.route('/reason/<int:id>/<int:pid>',methods=['GET','POST'])
 def reason(id,pid):
     form=Reason()
@@ -184,6 +184,7 @@ def reason(id,pid):
             
     return render_template('reason.html',form=form,id=id)
 
+#this is a route whrere doctor can see all the pending,confirmed and cancelled appointment.
 @app.route('/doctorpage/<int:id>')
 def doctorpage(id):
     form=Appointments()
@@ -192,7 +193,7 @@ def doctorpage(id):
     return render_template('doctorpage.html',appoints=appoints,form=form,s=s,id=id)
 
 
-
+#this route is for alotting paricular slot(date and time) to patients.
 @app.route('/confirmappointment/<int:id>/<int:pid>',methods=['GET','POST'])
 def confirmappointment(id,pid):
     form=Appointments()
@@ -210,12 +211,12 @@ def confirmappointment(id,pid):
 
     return render_template('confirmappointment.html',appoints=appoints,form=form,id=id)
 
-
+#this route is for choosing the type bw doctoc and patient before registering
 @app.route('/choice/<int:id>')
 def choice(id):
     return render_template('choice.html',id=id)
 
-
+#patient will search doctor form this route 
 @app.route('/searchdoctor/<int:pid>',methods=['GET','POST'])
 def searchdoctor(pid):
     form=SearchForm()
@@ -226,7 +227,7 @@ def searchdoctor(pid):
           i=len(doctor) 
     return render_template('searchdoctor.html',doctor=doctor,form=form,pid=pid,i=i)
 
-
+#this route is sign up page for doctor
 @app.route('/doctorform/<int:id>',methods=['GET','POST'])
 def doctorform(id):
     form=DoctorForm()
@@ -272,7 +273,7 @@ def doctorform(id):
 
 
 
-
+#this is a patient form route. Patient have to fill the form before takin an apointment
 @app.route('/patientform/<int:id>/<int:pid>',methods=['GET','POST'])
 def patientform(id,pid):
     form=PatientForm()
@@ -291,17 +292,8 @@ def patientform(id,pid):
         db.session.add(patient)
         db.session.commit()
         flash('you form is submitted successfully. Please check your notification for your appointment date and time!')
-        return redirect(url_for('home',id=pid))# add check histroy form for a patients
-        #s.login("arichayjian@gmail.com", "aj03012002aj") 
-  
-# message to be sent 
-       # message = "hello there hi i am arichay jain"
-  
-# sending the mail 
-       # s.sendmail("arichayjian@gmail.com", "rj03012002@gmail.com", message) 
-  
-# terminating the session 
-       # s.quit() 
+        return redirect(url_for('home',id=pid))
+        
 
 
     return render_template('patientform.html',form=form,visit=visit,pid=pid)
