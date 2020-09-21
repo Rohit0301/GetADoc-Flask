@@ -15,8 +15,7 @@ with open('config.json','r') as c:
 
 app = Flask(__name__)
 app.config['SECRET_KEY']=params["key"]
-app.config["MYSQL_HOST"]="127.0.0.1"
-app.config["MYSQL_USER"]="root"
+
 #protect from modifing cookies and cross site requests
 app.config['SQLALCHEMY_DATABASE_URI']=params["local_uri"]
 
