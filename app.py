@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY']=params["key"]
 
 #protect from modifing cookies and cross site requests
-app.config['DATABASE_URI']=params["local_uri"]
+app.config['SQLALCHEMY_DATABASE_URI']=params["local_uri"]
 
 db=SQLAlchemy(app)
 login_manager=LoginManager()
