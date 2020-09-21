@@ -24,8 +24,8 @@ login_manager=LoginManager()
 login_manager.init_app(app)
 
 login_manager.login_view = 'login'
-s = smtplib.SMTP('smtp.gmail.com', 587) 
-s.starttls() 
+
+ 
 
 
 # table which store patients login details
