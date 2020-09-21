@@ -16,7 +16,7 @@
 
 </head>
 <body>
-    <div class="row" style="background: antiquewhite; max-width:1244px;">
+    <div class="row" style="background: antiquewhite; ">
        <div class="col-md-3 mt-2 ml-4 mb-1 col-3"> <img src="{{url_for('static',filename='img/logo.png')}}" alt="Image" style="width: 80px;border-radius: 50%;"></div>
        <div class="col-sm-5 mt-3 ml-md-5 col-5" style="padding-left: 12%"><h1>GetADoc</h1></div>
  </div>
@@ -83,25 +83,25 @@
         <br>
         <h3><span style="color: chocolate;">Details</span></h3>
         
-           <h5><b>FullName : </b></h5><h6>{{d.fullname}}</h6>
-           <h5><b>Qualifications : </b></h5><h6>{{d.qualifications}}</h6>
-           <h5><b>DocterType : </b></h5><h6>{{d.doctortype}}</h6>
-           <h5><b>City: </b>{{d.city}}</h5>
+           <h6><b>FullName : </b></h6><h6>{{d.fullname}}</h6>
+           <h6><b>Qualifications : </b></h6><h6>{{d.qualifications}}</h6>
+           <h6><b>DocterType : </b></h6><h6>{{d.doctortype}}</h6>
+           <h6><b>City: </b>{{d.city}}</h6>
     </div>
         <div class="col-md-3 col">
           <br>
         <h3><span style="color: chocolate;">Contact Details</span></h3>
-        <h5><b>Phone : </b></h5><h6>{{d.contact}}</h6>
-        <h5><b>Email : </b></h5><h6>{{d.email}}</h6>
-        <h5><b>Address : </b></h5><h6>{{d.address}}</h6>
+        <h6><b>Phone : </b></h6><h6>{{d.contact}}</h6>
+        <h6><b>Email : </b></h6><h6>{{d.email}}</h6>
+        <h6><b>Address : </b></h6><h6>{{d.address}}</h6>
         </div>
         <div class="col-md-3 col">
           <br>
         <h3><span style="color: chocolate;">Charges</span></h3>
-        <h5><b>Clinic Charges : </b></h5><h6>{{d.clinic_charge}}</h6>
+        <h6><b>Clinic Charges : </b></h6><h6>{{d.clinic_charge}}</h6>
         {% if d.home_visit_available=='1' %}
         <span style="color: green;"><i class="fa fa-check" style="font-size:20px;"></i> Home visit available</span>
-        <h5>Home visit Charges : </h5><h6>{{d.home_charge}}</h6>
+        <h6>Home visit Charges : </h6><h6>{{d.home_charge}}</h6>
         {% else %}
         <span style="color: red;"><i class="fa fa-times" style="font-size:20px;"></i> Home visit not available</span>
         {% endif %}

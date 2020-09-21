@@ -64,5 +64,5 @@ class Appointments(FlaskForm):
     submit=SubmitField('Confirm')
 
 class Reason(FlaskForm):
-    reason=RadioField('Reasons',[validators.DataRequired('please select any one reason')],choices=[('Busy','Busy'),('Out of station','Out of station'),('All slots are booked','All slots are booked'),('Other','Other')])
+    reason=RadioField('Reasons',[validators.DataRequired('please select any one reason')],choices=[('Doctor not available','Doctor not available'),('Home visit not available for few days','Home visit not available for few days'),('All slots are booked','All slots are booked'),('Other','Other')])
     submit=SubmitField('Submit')
