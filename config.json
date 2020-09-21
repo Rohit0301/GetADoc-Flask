@@ -1,7 +1,7 @@
 {
 "params":{
-  "local_uri": "mysql://root:@localhost/GetADoc",
-  "prod_uri": "mysql://root:@localhost/GetADoc",
+  "local_uri": "mysql://root:@127.0.0.1/GetADoc",
+  "prod_uri": "mysql://root:@127.0.0.1/GetADoc",
   "key":"1299ed71343a314003fb6cc2df93fb2d",
   "fb_uri": "https://www.facebook.com/profile.php?id=100011138533561",
   "twt_uri": "https://twitter.com/RohitJa22390522",
