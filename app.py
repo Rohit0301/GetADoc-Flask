@@ -5,6 +5,8 @@ from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm,A
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
 from datetime import datetime,date
+import psycopg2
+from psycopg2.extras import DictCursor
 
 import json
 with open('config.json','r') as c:
@@ -17,7 +19,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY']=params["key"]
 
 #protect from modifing cookies and cross site requests
-app.config['SQLALCHEMY_DATABASE_URI']=params["local_uri"]
+app.config['DATABASE_URI']=params["local_uri"]
 
 db=SQLAlchemy(app)
 login_manager=LoginManager()
