@@ -5,8 +5,8 @@ from forms import RegistrationForm,LoginForm,DoctorForm,SearchForm,PatientForm,A
 from flask_login import LoginManager,UserMixin,current_user,login_user,logout_user,login_required  #manages the user logged-in state
 #usermixin includes generic implementations that are appropriate for most user model classes like is_authenticated,is_active
 from datetime import datetime,date
-import psycopg2
-from psycopg2.extras import DictCursor
+#import psycopg2
+#from psycopg2.extras import DictCursor
 
 import json
 with open('config.json','r') as c:
@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY']=params["key"]
 
 #protect from modifing cookies and cross site requests
-app.config['SQLALCHEMY_DATABASE_URI']=params["local_uri"]
+app.config['SQLALCHEMY_DATABASE_URI']=params["prod_uri"]
 
 db=SQLAlchemy(app)
 login_manager=LoginManager()
@@ -51,7 +51,7 @@ class DoctorDetails(UserMixin,db.Model):
     doctortype = db.Column(db.String(80),nullable=False)
     address = db.Column(db.String(200),nullable=False)
     clinic_charge = db.Column(db.String(200),nullable=False)
-    home_visit_available = db.Column(db.Integer,nullable=False,default=0)
+    home_visit_available = db.Column(db.String(2),nullable=False)
     home_charge = db.Column(db.String(200),nullable=False)
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -138,7 +138,7 @@ def register(id):
             db.session.add(register)
             db.session.commit()
             reg = Register.query.filter_by(email=form.email.data).first()
-            flash('Congratulations, you are registered successfully!')
+            flash('Yours registration is completed successfully!')
             return redirect(url_for('home',id=reg.id))
             
 
@@ -226,7 +226,7 @@ def searchdoctor(pid):
     doctor=None
     i=-1
     if form.validate_on_submit():
-          doctor = DoctorDetails.query.filter_by(city=form.city.data).all()
+          doctor = DoctorDetails.query.filter_by(lower(city)=lower(form.city.data)).all()
           i=len(doctor) 
     return render_template('searchdoctor.html',doctor=doctor,form=form,pid=pid,i=i)
 
@@ -237,24 +237,26 @@ def doctorform(id):
     fl=0
       
     if form.validate_on_submit():
-        home_visit_available=0
+        home_visit_available='0'
         specialisation=""
         if request.form.get('Other'):
+            if form.specialisation.data:
+                specialisation=form.specialisation.data
+
+            else:
+               flash('Please select any Specialisation')
+               return redirect(url_for('doctorform',id=id))
+
+        else:
             if form.doctortype.data=="Select Specialisation":
                 flash('Please Enter your Specialisation')
                 return redirect(url_for('doctorform',id=id))
             else:
                specialisation=form.doctortype.data
-        else:
-            if form.specialisation.data==None:
-                flash('Please select any Specialisation')
-                return redirect(url_for('doctorform',id=id))
-            else:
-               specialisation=form.specialisation.data
 
 
-        if form.home_visit.data==True:
-            home_visit_available=1
+        if request.form.get('Home_visit'):
+            home_visit_available='1'
         
         
         reg = DoctorDetails.query.filter_by(email=form.email.data).first()          
@@ -270,7 +272,7 @@ def doctorform(id):
             db.session.add(doctor)
             db.session.commit()
         doc = DoctorDetails.query.filter_by(email=form.email.data).first()
-        flash('Congratulations, your data submitted successfully!')
+        flash('Yours registration is completed successfully!')
         return redirect(url_for('home',id=doc.id))
     return render_template('doctor.html',form=form,id=id,fl=fl)
 
@@ -291,7 +293,10 @@ def patientform(id,pid):
                  flash('you appointment is already under process')    
                  return redirect(url_for('searchdoctor',pid=pid))
         
-        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=datetime.now(),appointmentdate=0,appointmenttime=0,docid=id,pid=pid,status="pending",reason="none",gender=form.gender.data)
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+
+        patient=PatientDetails(fullname=form.fullname.data,contact=form.contact.data,address=form.address.data,age=form.age.data,type=form.type.data,choice=form.choice.data,formfillingdate=now,appointmentdate=date.today(),appointmenttime=current_time,docid=id,pid=pid,status="pending",reason="none",gender=form.gender.data)
         db.session.add(patient)
         db.session.commit()
         flash('you form is submitted successfully. Please check your notification for your appointment date and time!')

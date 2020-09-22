@@ -1,7 +1,7 @@
 {
 "params":{
   "local_uri": "postgres://xgwdfkzphqdfcx:af7c23c6357e8f33eecde3a74f806ac11d2c61e479fbdb731ca7f4c0750b7739@ec2-3-224-97-209.compute-1.amazonaws.com:5432/d3njqg3ph87o7k",
-  "prod_uri": "mysql://root:@127.0.0.1:3306/GetADoc",
+  "prod_uri": "mysql://root:@localhost/GetADoc",
   "key":"1299ed71343a314003fb6cc2df93fb2d",
   "fb_uri": "https://www.facebook.com/profile.php?id=100011138533561",
   "twt_uri": "https://twitter.com/RohitJa22390522",
