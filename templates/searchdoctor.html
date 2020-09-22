@@ -83,7 +83,7 @@
         <br>
         <h3><span style="color: chocolate;">Details</span></h3>
         
-           <h6><b>FullName : </b></h6><h6>{{d.fullname}}</h6>
+           <h6><b>FullName : </b></h6><h6 style="color:">{{d.fullname}}</h6>
            <h6><b>Qualifications : </b></h6><h6>{{d.qualifications}}</h6>
            <h6><b>DocterType : </b></h6><h6>{{d.doctortype}}</h6>
            <h6><b>City: </b>{{d.city}}</h6>
@@ -101,7 +101,7 @@
         <h6><b>Clinic Charges : </b></h6><h6>{{d.clinic_charge}}</h6>
         {% if d.home_visit_available=='1' %}
         <span style="color: green;"><i class="fa fa-check" style="font-size:20px;"></i> Home visit available</span>
-        <h6>Home visit Charges : </h6><h6>{{d.home_charge}}</h6>
+        <h6><b>Home visit Charges :</b> </h6><h6>{{d.home_charge}}</h6>
         {% else %}
         <span style="color: red;"><i class="fa fa-times" style="font-size:20px;"></i> Home visit not available</span>
         {% endif %}
