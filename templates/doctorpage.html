@@ -67,16 +67,16 @@
 <br>
         {% for a in appoints | reverse%}
 {% if a.status=="pending" %}
-   <div class="container-fluid row aler alert-warning mt-2 ml-md-5 ml-1">
+   <div class="container-fluid row aler alert-warning mt-2 ml-sm-1">
 
        <div class="col-md-3">
         <i class="fa fa-exclamation-triangle " style="font-size:60px;"></i>
         
-           <h4>FullName: {{a.fullname}}</h4>
-           <h4>Age: {{a.age}}</h4>
-            <h4>Choice: {{a.choice}}</h4>
-        <h4>Phone: {{a.contact}}</h4>
-        <h4>Address: {{a.address}}</h4>
+           <h4><b>FullName:</b> {{a.fullname}}</h4>
+           <h4><b>Age:</b> {{a.age}}</h4>
+            <h4><b>Choice:</b> {{a.choice}}</h4>
+        <h4><b>Phone:</b> {{a.contact}}</h4>
+        <h4><b>Address:</b> {{a.address}}</h4>
         </div>
         
          <div class=" container-fluid col-md-3">
@@ -93,15 +93,15 @@
 
      {% for a in appoints | reverse %}
 {% if a.status=="appointed" %}
-   <div class="container-fluid row alert alert-success mt-2 ml-1 mr-1">
+   <div class="container-fluid row alert alert-success mt-2 ml-sm-1 ">
        <div class="col-md-3">
 
         <i class="fa fa-check-square-o" style="font-size:60px;"></i>
-           <h4>FullName: {{a.fullname}}</h4>
-           <h4>Age: {{a.age}}</h4>
-            <h4>Choice: {{a.choice}}</h4>
-        <h4>Phone: {{a.contact}}</h4>
-        <h4>Address: {{a.address}}</h4>
+           <h4><b>FullName:</b> {{a.fullname}}</h4>
+           <h4><b>Age:</b> {{a.age}}</h4>
+            <h4><b>Choice:</b> {{a.choice}}</h4>
+        <h4><b>Phone:</b> {{a.contact}}</h4>
+        <h4><b>Address:</b> {{a.address}}</h4>
         </div>
         </div>
 
@@ -112,14 +112,14 @@
 
      {% for a in appoints |reverse %}
 {% if a.status=="cancelled" %}
-   <div class="container-fluid row alert alert-danger mt-1 ml-md-4 ml-1">
+   <div class="container-fluid row alert alert-danger mt-2 ml-sm-1">
        <div class="col-md-3 ">
         <i class="fa fa-times" style="font-size:60px;"></i>
-           <h4>FullName: {{a.fullname}}</h4>
-           <h4>Age: {{a.age}}</h4>
-            <h4>Choice: {{a.choice}}</h4>
-        <h4>Phone: {{a.contact}}</h4>
-        <h4>Address: {{a.address}}</h4>
+           <h4><b>FullName:</b> {{a.fullname}}</h4>
+           <h4><b>Age:</b> {{a.age}}</h4>
+            <h4><b>Choice:</b> {{a.choice}}</h4>
+        <h4><b>Phone:</b> {{a.contact}}</h4>
+        <h4><b>Address:</b> {{a.address}}</h4>
         </div>
     </div>
    <br>
