@@ -226,7 +226,7 @@ def searchdoctor(pid):
     doctor=None
     i=-1
     if form.validate_on_submit():
-          doctor = DoctorDetails.query.filter_by(lower(city)=lower(form.city.data)).all()
+          doctor = DoctorDetails.query.filter_by(city=upper(form.city.data)).all()
           i=len(doctor) 
     return render_template('searchdoctor.html',doctor=doctor,form=form,pid=pid,i=i)
 
@@ -268,7 +268,7 @@ def doctorform(id):
             id1 = db.session.query(db.func.max(DoctorDetails.id)).scalar()
             if id1==None:
                 id1=0   
-            doctor=DoctorDetails(id=id1+2,fullname=form.fullname.data,email=form.email.data,password=password,city=form.city.data,qualifications=form.qualifications.data,contact=form.contact.data,doctortype=specialisation,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
+            doctor=DoctorDetails(id=id1+2,fullname=form.fullname.data,email=form.email.data,password=password,city=upper(form.city.data),qualifications=form.qualifications.data,contact=form.contact.data,doctortype=specialisation,address=form.address.data,clinic_charge=form.clinic_charges.data,home_visit_available=home_visit_available,home_charge=form.home_charges.data)
             db.session.add(doctor)
             db.session.commit()
         doc = DoctorDetails.query.filter_by(email=form.email.data).first()
